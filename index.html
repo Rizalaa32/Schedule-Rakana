@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,14 +34,18 @@
     }
   </script>
 </head>
-<body class="h-screen w-screen overflow-hidden bg-[#070B14] text-slate-100 flex flex-col selection:bg-cyan-500 selection:text-black">
+
+<body
+  class="h-screen w-screen overflow-hidden bg-[#070B14] text-slate-100 flex flex-col selection:bg-cyan-500 selection:text-black">
 
   <!-- TOP APP BAR / HEADER (Compact Height: ~56px) -->
-  <header class="h-14 shrink-0 bg-[#0B1120]/95 backdrop-blur-md border-b border-slate-800/80 px-4 flex items-center justify-between z-40">
-    
+  <header
+    class="h-14 shrink-0 bg-[#0B1120]/95 backdrop-blur-md border-b border-slate-800/80 px-4 flex items-center justify-between z-40">
+
     <!-- Logo & Company Branding -->
     <div class="flex items-center space-x-3">
-      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 p-0.5 shadow-md shadow-cyan-950/60 flex items-center justify-center">
+      <div
+        class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 p-0.5 shadow-md shadow-cyan-950/60 flex items-center justify-center">
         <div class="w-full h-full bg-[#0B1120] rounded-[10px] flex items-center justify-center">
           <i data-lucide="shield-check" class="w-5 h-5 text-cyan-400"></i>
         </div>
@@ -49,9 +54,10 @@
       <div>
         <div class="flex items-center space-x-2">
           <h1 id="header-pjk3-name" class="text-base md:text-lg font-black tracking-tight text-white uppercase">
-            PT. RAKANA INSPEKSI TEKNIK
+            PT. RAKANA MITRA RIKSA
           </h1>
-          <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
+          <span
+            class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1 beacon-dot"></span>
             LIVE
           </span>
@@ -59,23 +65,25 @@
         <div class="text-[11px] text-slate-400 -mt-0.5 flex items-center space-x-2">
           <span id="header-pjk3-sub">Layanan Riksa Uji K3 Kemnaker RI</span>
           <span>•</span>
-          <span id="header-pjk3-reg" class="font-mono text-cyan-400/90">SKP No: 560/124/PJK3/IX/2024</span>
+          <span id="header-pjk3-reg" class="font-mono text-cyan-400/90">-</span>
         </div>
       </div>
     </div>
 
     <!-- Clock & Header Action Buttons -->
     <div class="flex items-center space-x-4">
-      
+
       <!-- Big High-Contrast Clock -->
       <div class="flex items-center space-x-2 text-right">
-        <span id="tv-day-badge" class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-cyan-950 text-cyan-400 border border-cyan-800">
+        <span id="tv-day-badge"
+          class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-cyan-950 text-cyan-400 border border-cyan-800">
           SENIN
         </span>
         <span id="tv-date" class="text-xs font-bold text-slate-300 hidden sm:inline">
           02 November 2026
         </span>
-        <span id="tv-clock" class="text-xl md:text-2xl font-black font-mono-clock tracking-wider text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,0.4)]">
+        <span id="tv-clock"
+          class="text-xl md:text-2xl font-black font-mono-clock tracking-wider text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,0.4)]">
           08:30:00
         </span>
         <span class="text-[10px] font-bold text-slate-400 font-mono">WIB</span>
@@ -83,25 +91,33 @@
 
       <!-- Action Buttons -->
       <div class="flex items-center space-x-1.5 pl-3 border-l border-slate-800">
-        
+
         <!-- WA Button -->
-        <button id="btn-open-wa-modal" class="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] uppercase tracking-wider flex items-center space-x-1.5 shadow transition" title="Salin Format WhatsApp (Shortcut: W)">
+        <button id="btn-open-wa-modal"
+          class="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] uppercase tracking-wider flex items-center space-x-1.5 shadow transition"
+          title="Salin Format WhatsApp (Shortcut: W)">
           <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
           <span class="hidden md:inline">Format WA</span>
         </button>
 
         <!-- Fullscreen Button -->
-        <button id="btn-fullscreen" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition border border-slate-700" title="Layar Penuh TV (Shortcut: F)">
+        <button id="btn-fullscreen"
+          class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition border border-slate-700"
+          title="Layar Penuh TV (Shortcut: F)">
           <i data-lucide="maximize" class="w-3.5 h-3.5"></i>
         </button>
 
         <!-- Dark/Light Theme -->
-        <button id="btn-toggle-theme" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition border border-slate-700" title="Ganti Tema (Shortcut: T)">
+        <button id="btn-toggle-theme"
+          class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition border border-slate-700"
+          title="Ganti Tema (Shortcut: T)">
           <i data-lucide="sun-moon" class="w-3.5 h-3.5"></i>
         </button>
 
         <!-- Admin Button -->
-        <button id="btn-open-admin" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-400 font-bold text-[11px] uppercase tracking-wider flex items-center space-x-1.5 border border-slate-700 hover:border-cyan-500 transition" title="Panel Admin (Shortcut: A)">
+        <button id="btn-open-admin"
+          class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-400 font-bold text-[11px] uppercase tracking-wider flex items-center space-x-1.5 border border-slate-700 hover:border-cyan-500 transition"
+          title="Panel Admin (Shortcut: A)">
           <i data-lucide="settings" class="w-3.5 h-3.5"></i>
           <span class="hidden lg:inline">Admin</span>
         </button>
@@ -112,8 +128,9 @@
   </header>
 
   <!-- SLIDE CONTROLLER & AUTO-ROTATION BAR (Compact Height: ~36px) -->
-  <section id="slide-controller-bar" class="h-9 shrink-0 bg-[#0B1120]/80 border-b border-slate-800/80 px-4 flex items-center justify-between relative z-30">
-    
+  <section id="slide-controller-bar"
+    class="h-9 shrink-0 bg-[#0B1120]/80 border-b border-slate-800/80 px-4 flex items-center justify-between relative z-30">
+
     <!-- Top Countdown Progress Bar -->
     <div class="absolute top-0 left-0 right-0 h-[2px] bg-slate-800">
       <div id="slide-progress" class="slide-progress-bar"></div>
@@ -121,12 +138,14 @@
 
     <!-- Slide Switcher Tabs -->
     <div class="flex items-center space-x-1.5">
-      <button id="btn-nav-slide-1" class="slide-nav-pill px-3 py-1 rounded-lg text-[11px] font-black uppercase tracking-wider transition bg-cyan-500 text-slate-950 shadow flex items-center space-x-1.5">
+      <button id="btn-nav-slide-1"
+        class="slide-nav-pill px-3 py-1 rounded-lg text-[11px] font-black uppercase tracking-wider transition bg-cyan-500 text-slate-950 shadow flex items-center space-x-1.5">
         <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
         <span>[1] Jadwal 1 Minggu (Senin – Sabtu)</span>
       </button>
 
-      <button id="btn-nav-slide-2" class="slide-nav-pill px-3 py-1 rounded-lg text-[11px] font-bold uppercase tracking-wider transition bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 flex items-center space-x-1.5">
+      <button id="btn-nav-slide-2"
+        class="slide-nav-pill px-3 py-1 rounded-lg text-[11px] font-bold uppercase tracking-wider transition bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 flex items-center space-x-1.5">
         <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-400"></i>
         <span>[2] Status Tanggungan Ahli K3</span>
       </button>
@@ -134,7 +153,8 @@
 
     <!-- Active Slide Title -->
     <div class="hidden md:flex items-center space-x-2">
-      <span id="active-slide-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-slate-900 text-slate-200 border border-slate-700 font-mono">
+      <span id="active-slide-badge"
+        class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-slate-900 text-slate-200 border border-slate-700 font-mono">
         SLIDE 1/2: JADWAL 1 MINGGU (SENIN - SABTU)
       </span>
       <span class="text-[10px] text-slate-400 font-mono">
@@ -144,16 +164,22 @@
 
     <!-- Rotation Controls -->
     <div class="flex items-center space-x-1.5">
-      <button id="btn-prev-slide" class="p-1 rounded-md bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 transition" title="Sebelumnya (Arrow Left)">
+      <button id="btn-prev-slide"
+        class="p-1 rounded-md bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 transition"
+        title="Sebelumnya (Arrow Left)">
         <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
       </button>
 
-      <button id="btn-toggle-autorotate" class="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 text-cyan-400 font-bold text-[10px] uppercase tracking-wider border border-slate-800 transition flex items-center space-x-1" title="Jeda/Mulai Rotasi (Spasi)">
+      <button id="btn-toggle-autorotate"
+        class="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 text-cyan-400 font-bold text-[10px] uppercase tracking-wider border border-slate-800 transition flex items-center space-x-1"
+        title="Jeda/Mulai Rotasi (Spasi)">
         <i data-lucide="pause" class="w-3 h-3"></i>
         <span class="hidden sm:inline">Jeda</span>
       </button>
 
-      <button id="btn-next-slide" class="p-1 rounded-md bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 transition" title="Berikutnya (Arrow Right)">
+      <button id="btn-next-slide"
+        class="p-1 rounded-md bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 transition"
+        title="Berikutnya (Arrow Right)">
         <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
       </button>
 
@@ -168,7 +194,7 @@
   <!-- MAIN DISPLAY VIEW: ZERO SCROLL TV VIEWPORT                                 -->
   <!-- ========================================================================= -->
   <main class="flex-1 h-[calc(100vh-122px)] overflow-hidden p-2.5 md:p-3 relative">
-    
+
     <!-- SLIDE 1 VIEW: 6-COLUMN WEEKLY BOARD (SENIN - SABTU, 1 SCREEN ZERO SCROLL) -->
     <div id="slide-1-view" class="slide-view h-full flex flex-col overflow-hidden">
       <div id="weekly-board-container" class="grid grid-cols-6 gap-2.5 h-full w-full overflow-hidden">
@@ -178,10 +204,10 @@
 
     <!-- SLIDE 2 VIEW: MONITORING TANGGUNGAN LAPORAN (LHPP) AHLI K3 (1 SCREEN ZERO SCROLL) -->
     <div id="slide-2-view" class="slide-view h-full flex flex-col space-y-2.5 overflow-hidden hidden">
-      
+
       <!-- Top Metrics Bar (Height ~64px) -->
       <div class="grid grid-cols-4 gap-2.5 shrink-0">
-        
+
         <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
           <div>
             <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Laporan Belum Terbit</div>
@@ -190,12 +216,14 @@
               <span class="text-[10px] font-bold text-slate-400 uppercase">Dokumen LHPP</span>
             </div>
           </div>
-          <div class="w-8 h-8 rounded-lg bg-rose-950/70 border border-rose-800/60 flex items-center justify-center text-rose-400">
+          <div
+            class="w-8 h-8 rounded-lg bg-rose-950/70 border border-rose-800/60 flex items-center justify-center text-rose-400">
             <i data-lucide="file-warning" class="w-4 h-4"></i>
           </div>
         </div>
 
-        <div class="p-2.5 rounded-xl bg-rose-950/20 border border-rose-500/60 glow-rose flex items-center justify-between">
+        <div
+          class="p-2.5 rounded-xl bg-rose-950/20 border border-rose-500/60 glow-rose flex items-center justify-between">
           <div>
             <div class="text-[10px] font-black text-rose-400 uppercase tracking-wider flex items-center gap-1">
               <span class="w-1.5 h-1.5 rounded-full bg-rose-500 beacon-dot"></span>
@@ -240,9 +268,10 @@
 
       <!-- Main Two-Column Backlog View (Fit in remaining viewport height) -->
       <div class="grid grid-cols-12 gap-3 flex-1 overflow-hidden">
-        
+
         <!-- Left: Ahli K3 Memiliki Tanggungan (Col 8) -->
-        <div class="col-span-8 flex flex-col h-full overflow-hidden rounded-2xl bg-slate-900/60 border border-slate-800 p-3">
+        <div
+          class="col-span-8 flex flex-col h-full overflow-hidden rounded-2xl bg-slate-900/60 border border-slate-800 p-3">
           <div class="flex items-center justify-between mb-2 pb-2 border-b border-slate-800 shrink-0">
             <div class="flex items-center space-x-2">
               <span class="w-2 h-2 rounded-full bg-rose-500 beacon-dot"></span>
@@ -250,7 +279,8 @@
                 Ahli K3 Memiliki Tanggungan Laporan (LHPP)
               </h3>
             </div>
-            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">
+            <span
+              class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">
               STANDAR DISNAKER MAKS H+7
             </span>
           </div>
@@ -262,7 +292,8 @@
         </div>
 
         <!-- Right: Ahli K3 Bebas Tanggungan (Col 4) -->
-        <div class="col-span-4 flex flex-col h-full overflow-hidden rounded-2xl bg-slate-900/60 border border-slate-800 p-3">
+        <div
+          class="col-span-4 flex flex-col h-full overflow-hidden rounded-2xl bg-slate-900/60 border border-slate-800 p-3">
           <div class="flex items-center justify-between mb-2 pb-2 border-b border-slate-800 shrink-0">
             <div class="flex items-center space-x-2">
               <i data-lucide="check-check" class="w-4 h-4 text-emerald-400"></i>
@@ -270,7 +301,8 @@
                 Bebas Tanggungan (Zero Backlog)
               </h3>
             </div>
-            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+            <span
+              class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
               TERTIB
             </span>
           </div>
@@ -281,10 +313,12 @@
           </div>
 
           <!-- Standard Notice -->
-          <div class="mt-2 p-2.5 rounded-xl bg-cyan-950/30 border border-cyan-800/40 text-[11px] text-cyan-200/90 shrink-0 flex items-start space-x-2">
+          <div
+            class="mt-2 p-2.5 rounded-xl bg-cyan-950/30 border border-cyan-800/40 text-[11px] text-cyan-200/90 shrink-0 flex items-start space-x-2">
             <i data-lucide="shield-alert" class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5"></i>
             <div>
-              <strong class="text-cyan-300">Komitmen PJK3:</strong> Laporan hasil riksa uji wajib disahkan Pengawas Ketenagakerjaan tepat waktu agar sertifikat K3 / Suket klien diterbitkan tanpa kendala audit.
+              <strong class="text-cyan-300">Komitmen PJK3:</strong> Laporan hasil riksa uji wajib disahkan Pengawas
+              Ketenagakerjaan tepat waktu agar sertifikat K3 / Suket klien diterbitkan tanpa kendala audit.
             </div>
           </div>
         </div>
@@ -296,19 +330,23 @@
   </main>
 
   <!-- BOTTOM RUNNING TEXT / SAFETY TICKER (Compact Height: ~32px) -->
-  <footer class="h-8 shrink-0 bg-[#070B14] border-t border-slate-800/80 px-4 flex items-center space-x-3 overflow-hidden z-20">
-    <div class="flex items-center space-x-1.5 shrink-0 bg-cyan-500 text-slate-950 font-black px-2 py-0.5 rounded text-[10px] uppercase tracking-wider shadow">
+  <footer
+    class="h-8 shrink-0 bg-[#070B14] border-t border-slate-800/80 px-4 flex items-center space-x-3 overflow-hidden z-20">
+    <div
+      class="flex items-center space-x-1.5 shrink-0 bg-cyan-500 text-slate-950 font-black px-2 py-0.5 rounded text-[10px] uppercase tracking-wider shadow">
       <i data-lucide="megaphone" class="w-3 h-3"></i>
       <span>SAFETY BROADCAST</span>
     </div>
 
     <div class="marquee-container flex-1 text-xs font-semibold tracking-wide text-slate-300">
       <div id="marquee-text" class="marquee-content">
-        ⛑️ UTAMAKAN KESELAMATAN & KESEHATAN KERJA • ZERO ACCIDENT IS OUR PRIORITY • PASTIKAN SELURUH OBJEK RIKSA MEMILIKI SUKET/SLO RESMI • LAPORAN TEPAT WAKTU, AUDIT KLIEN AMAN!
+        ⛑️ UTAMAKAN KESELAMATAN & KESEHATAN KERJA • ZERO ACCIDENT IS OUR PRIORITY • PASTIKAN SELURUH OBJEK RIKSA
+        MEMILIKI SUKET/SLO RESMI • LAPORAN TEPAT WAKTU, AUDIT KLIEN AMAN!
       </div>
     </div>
 
-    <div class="hidden xl:flex items-center space-x-2 text-[10px] font-mono text-slate-500 shrink-0 border-l border-slate-800 pl-3">
+    <div
+      class="hidden xl:flex items-center space-x-2 text-[10px] font-mono text-slate-500 shrink-0 border-l border-slate-800 pl-3">
       <span><kbd class="px-1 py-0.5 bg-slate-800 rounded text-slate-300">1</kbd> Jadwal</span>
       <span><kbd class="px-1 py-0.5 bg-slate-800 rounded text-slate-300">2</kbd> Tanggungan</span>
       <span><kbd class="px-1 py-0.5 bg-slate-800 rounded text-slate-300">Spasi</kbd> Jeda</span>
@@ -321,40 +359,54 @@
   <!-- ========================================================================= -->
   <!-- MODAL 1: WHATSAPP SCHEDULE EXPORT MODAL                                    -->
   <!-- ========================================================================= -->
-  <div id="wa-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
-    <div class="bg-slate-900 border border-slate-700 rounded-3xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
-      
+  <div id="wa-modal"
+    class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div
+      class="bg-slate-900 border border-slate-700 rounded-3xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+
       <!-- Modal Header -->
       <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950/60">
         <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-lg shadow-emerald-950/60">
+          <div
+            class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-lg shadow-emerald-950/60">
             <i data-lucide="share-2" class="w-5 h-5"></i>
           </div>
           <div>
             <h3 class="text-lg font-black text-white">Ekspor Format Pesan WhatsApp</h3>
-            <p class="text-xs text-slate-400">Siap disalin dan dibagikan langsung ke grup WhatsApp internal atau klien</p>
+            <p class="text-xs text-slate-400">Siap disalin dan dibagikan langsung ke grup WhatsApp internal atau klien
+            </p>
           </div>
         </div>
-        <button id="btn-close-wa-modal" class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition">
+        <button id="btn-close-wa-modal"
+          class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
       <!-- Format Selection Buttons -->
       <div class="p-4 bg-slate-950/40 border-b border-slate-800 flex flex-wrap gap-2">
-        <button class="wa-format-btn px-3 py-1.5 rounded-lg text-xs font-bold transition bg-emerald-600 text-white" data-format="weekly">
+        <button class="wa-format-btn px-3 py-1.5 rounded-lg text-xs font-bold transition bg-emerald-600 text-white"
+          data-format="weekly">
           📅 Jadwal 1 Minggu (Senin - Sabtu)
         </button>
-        <button class="wa-format-btn px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-800 text-slate-300 hover:text-white" data-format="daily">
+        <button
+          class="wa-format-btn px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-800 text-slate-300 hover:text-white"
+          data-format="daily">
           📋 Jadwal Hari Ini
         </button>
-        <button class="wa-format-btn px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-800 text-slate-300 hover:text-white" data-format="tomorrow">
+        <button
+          class="wa-format-btn px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-800 text-slate-300 hover:text-white"
+          data-format="tomorrow">
           ⏳ Preview Besok
         </button>
-        <button class="wa-format-btn px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-800 text-slate-300 hover:text-white" data-format="backlog">
+        <button
+          class="wa-format-btn px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-800 text-slate-300 hover:text-white"
+          data-format="backlog">
           🚨 Rekap Tanggungan Ahli K3
         </button>
-        <button class="wa-format-btn px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-800 text-slate-300 hover:text-white" data-format="brief">
+        <button
+          class="wa-format-btn px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-800 text-slate-300 hover:text-white"
+          data-format="brief">
           📢 Ringkasan Singkat
         </button>
       </div>
@@ -365,22 +417,27 @@
           <span>Pratinjau Teks (Dapat diedit sebelum disalin):</span>
           <span class="text-[11px] text-emerald-400">Mendukung format tebal, miring & emoji WhatsApp</span>
         </label>
-        <textarea id="wa-preview-textarea" class="w-full flex-1 p-4 rounded-2xl bg-slate-950 border border-slate-800 text-slate-100 font-mono text-xs leading-relaxed focus:outline-none focus:border-emerald-500 resize-none min-h-[280px]" spellcheck="false"></textarea>
+        <textarea id="wa-preview-textarea"
+          class="w-full flex-1 p-4 rounded-2xl bg-slate-950 border border-slate-800 text-slate-100 font-mono text-xs leading-relaxed focus:outline-none focus:border-emerald-500 resize-none min-h-[280px]"
+          spellcheck="false"></textarea>
       </div>
 
       <!-- Modal Footer Actions -->
       <div class="p-4 border-t border-slate-800 bg-slate-950/60 flex flex-wrap items-center justify-between gap-3">
-        <button id="btn-download-wa-txt" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs flex items-center space-x-2 border border-slate-700 transition">
+        <button id="btn-download-wa-txt"
+          class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs flex items-center space-x-2 border border-slate-700 transition">
           <i data-lucide="download" class="w-4 h-4"></i>
           <span>Unduh File (.txt)</span>
         </button>
 
         <div class="flex items-center space-x-3">
-          <button id="btn-direct-wa" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-emerald-950/60 text-emerald-400 font-bold text-xs flex items-center space-x-2 border border-emerald-800/50 transition">
+          <button id="btn-direct-wa"
+            class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-emerald-950/60 text-emerald-400 font-bold text-xs flex items-center space-x-2 border border-emerald-800/50 transition">
             <i data-lucide="external-link" class="w-4 h-4"></i>
             <span>Buka WhatsApp Web</span>
           </button>
-          <button id="btn-copy-wa-text" class="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs uppercase tracking-wider flex items-center space-x-2 shadow-lg shadow-emerald-950/60 transition hover:scale-105 active:scale-95">
+          <button id="btn-copy-wa-text"
+            class="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs uppercase tracking-wider flex items-center space-x-2 shadow-lg shadow-emerald-950/60 transition hover:scale-105 active:scale-95">
             <i data-lucide="copy" class="w-4 h-4"></i>
             <span>Salin ke Clipboard (1-Klik)</span>
           </button>
@@ -393,12 +450,16 @@
   <!-- ========================================================================= -->
   <!-- MODAL 2: ADMIN MANAGEMENT MODAL                                            -->
   <!-- ========================================================================= -->
-  <div id="admin-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
-    <div class="bg-slate-900 border border-slate-700 rounded-3xl w-full max-w-6xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
-      
+  <div id="admin-modal"
+    class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div
+      class="bg-slate-900 border border-slate-700 rounded-3xl w-full max-w-6xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
+
       <!-- Admin PIN Authentication View -->
-      <div id="admin-auth-view" class="p-8 flex flex-col items-center justify-center max-w-md mx-auto my-auto text-center">
-        <div class="w-16 h-16 rounded-2xl bg-cyan-950 border border-cyan-800/60 text-cyan-400 flex items-center justify-center mb-4 shadow-xl">
+      <div id="admin-auth-view"
+        class="p-8 flex flex-col items-center justify-center max-w-md mx-auto my-auto text-center">
+        <div
+          class="w-16 h-16 rounded-2xl bg-cyan-950 border border-cyan-800/60 text-cyan-400 flex items-center justify-center mb-4 shadow-xl">
           <i data-lucide="lock" class="w-8 h-8"></i>
         </div>
         <h3 class="text-2xl font-black text-white">Autentikasi Admin PJK3</h3>
@@ -408,12 +469,15 @@
 
         <form id="admin-pin-form" class="w-full space-y-4">
           <div>
-            <input type="password" id="admin-pin-input" placeholder="Masukkan PIN (Default: 1234)" maxlength="8" class="w-full px-4 py-3 text-center text-xl font-mono tracking-widest rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:border-cyan-500" required>
+            <input type="password" id="admin-pin-input" placeholder="Masukkan PIN (Default: 1234)" maxlength="8"
+              class="w-full px-4 py-3 text-center text-xl font-mono tracking-widest rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:border-cyan-500"
+              required>
             <div id="pin-error-msg" class="text-xs font-bold text-rose-400 mt-2 hidden">
               ❌ PIN Salah! Silakan coba lagi (PIN default: 1234).
             </div>
           </div>
-          <button type="submit" class="w-full py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-sm uppercase tracking-wider transition">
+          <button type="submit"
+            class="w-full py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-sm uppercase tracking-wider transition">
             Buka Panel Admin
           </button>
         </form>
@@ -421,7 +485,7 @@
 
       <!-- Admin Main Dashboard View (Shown after authentication) -->
       <div id="admin-content-view" class="flex-1 flex flex-col overflow-hidden hidden">
-        
+
         <!-- Header -->
         <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/80">
           <div class="flex items-center space-x-3">
@@ -433,26 +497,35 @@
               <p class="text-xs text-slate-400">Kelola jadwal riksa uji, laporan backlog Ahli K3, dan arsip data</p>
             </div>
           </div>
-          <button id="btn-close-admin-modal" class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition">
+          <button id="btn-close-admin-modal"
+            class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition">
             <i data-lucide="x" class="w-5 h-5"></i>
           </button>
         </div>
 
         <!-- Navigation Tabs -->
         <div class="px-5 border-b border-slate-800 bg-slate-950/40 flex space-x-2 overflow-x-auto">
-          <button class="admin-tab-btn px-4 py-3 border-b-2 border-cyan-500 text-cyan-400 font-bold text-xs uppercase tracking-wider transition flex items-center space-x-2" data-tab="tab-schedules">
+          <button
+            class="admin-tab-btn px-4 py-3 border-b-2 border-cyan-500 text-cyan-400 font-bold text-xs uppercase tracking-wider transition flex items-center space-x-2"
+            data-tab="tab-schedules">
             <i data-lucide="calendar" class="w-4 h-4"></i>
             <span>Kelola Jadwal</span>
           </button>
-          <button class="admin-tab-btn px-4 py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-bold text-xs uppercase tracking-wider transition flex items-center space-x-2" data-tab="tab-inspectors">
+          <button
+            class="admin-tab-btn px-4 py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-bold text-xs uppercase tracking-wider transition flex items-center space-x-2"
+            data-tab="tab-inspectors">
             <i data-lucide="users" class="w-4 h-4"></i>
             <span>Ahli K3 & Backlog</span>
           </button>
-          <button class="admin-tab-btn px-4 py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-bold text-xs uppercase tracking-wider transition flex items-center space-x-2" data-tab="tab-history">
+          <button
+            class="admin-tab-btn px-4 py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-bold text-xs uppercase tracking-wider transition flex items-center space-x-2"
+            data-tab="tab-history">
             <i data-lucide="archive" class="w-4 h-4"></i>
             <span>Arsip & Riwayat</span>
           </button>
-          <button class="admin-tab-btn px-4 py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-bold text-xs uppercase tracking-wider transition flex items-center space-x-2" data-tab="tab-settings">
+          <button
+            class="admin-tab-btn px-4 py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-bold text-xs uppercase tracking-wider transition flex items-center space-x-2"
+            data-tab="tab-settings">
             <i data-lucide="settings-2" class="w-4 h-4"></i>
             <span>Pengaturan & Backup</span>
           </button>
@@ -460,10 +533,10 @@
 
         <!-- TAB CONTENT CONTAINER -->
         <div class="p-5 flex-1 overflow-y-auto">
-          
+
           <!-- TAB 1: KELOLA JADWAL -->
           <div id="tab-schedules" class="admin-tab-pane space-y-5">
-            
+
             <!-- Form Add/Edit Schedule -->
             <div class="p-4 rounded-2xl bg-slate-950/60 border border-slate-800">
               <div class="flex items-center justify-between mb-3">
@@ -478,15 +551,20 @@
               <form id="form-schedule" class="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div>
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">Tanggal Riksa Uji *</label>
-                  <input type="date" id="sch-date" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500" required>
+                  <input type="date" id="sch-date"
+                    class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500"
+                    required>
                 </div>
                 <div>
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">Jam Pelaksanaan</label>
-                  <input type="time" id="sch-time" value="08:30" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                  <input type="time" id="sch-time" value="08:30"
+                    class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
                 </div>
                 <div>
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">Kategori Bidang K3 *</label>
-                  <select id="sch-category" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500" required>
+                  <select id="sch-category"
+                    class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500"
+                    required>
                     <option value="PUBT">Pesawat Uap & Bejana Tekan (PUBT)</option>
                     <option value="PAA">Pesawat Angkat & Angkut (PAA)</option>
                     <option value="LISTRIK">Instalasi Listrik & Penyalur Petir</option>
@@ -499,11 +577,14 @@
 
                 <div class="md:col-span-2">
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">Nama Perusahaan / Klien *</label>
-                  <input type="text" id="sch-company" placeholder="Contoh: PT. Indofood CBP Sukses Makmur Tbk" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500" required>
+                  <input type="text" id="sch-company" placeholder="Contoh: PT. Indofood CBP Sukses Makmur Tbk"
+                    class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500"
+                    required>
                 </div>
                 <div>
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">Jenis Riksa</label>
-                  <select id="sch-type" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                  <select id="sch-type"
+                    class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
                     <option value="Riksa Uji Berkala">Riksa Uji Berkala</option>
                     <option value="Riksa Uji Pertama">Riksa Uji Pertama (Baru)</option>
                     <option value="Riksa Uji Khusus">Riksa Uji Khusus / Modifikasi</option>
@@ -513,32 +594,41 @@
 
                 <div class="md:col-span-3">
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">Alat / Objek Uji K3</label>
-                  <input type="text" id="sch-equipment" placeholder="Contoh: Boiler Takuma 15 Ton (1 Unit) & Bejana Tekan (3 Unit)" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                  <input type="text" id="sch-equipment"
+                    placeholder="Contoh: Boiler Takuma 15 Ton (1 Unit) & Bejana Tekan (3 Unit)"
+                    class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
                 </div>
 
                 <div class="md:col-span-3">
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">Alamat / Lokasi Pabrik</label>
-                  <input type="text" id="sch-address" placeholder="Contoh: Kawasan Industri MM2100 Blok C-2, Cikarang Barat" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                  <input type="text" id="sch-address"
+                    placeholder="Contoh: Kawasan Industri MM2100 Blok C-2, Cikarang Barat"
+                    class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
                 </div>
 
                 <div>
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">Ahli K3 / Inspektur *</label>
-                  <select id="schedule-inspector-select" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500" required>
+                  <select id="schedule-inspector-select"
+                    class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500"
+                    required>
                     <!-- Populated dynamically -->
                   </select>
                 </div>
                 <div>
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">Nama PIC Klien</label>
-                  <input type="text" id="sch-pic-name" placeholder="Contoh: Bpk. Hendra (HSE)" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                  <input type="text" id="sch-pic-name" placeholder="Contoh: Bpk. Hendra (HSE)"
+                    class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
                 </div>
                 <div>
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">No. HP / WA PIC</label>
-                  <input type="text" id="sch-pic-phone" placeholder="Contoh: 0812-3456-7890" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                  <input type="text" id="sch-pic-phone" placeholder="Contoh: 0812-3456-7890"
+                    class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
                 </div>
 
                 <div>
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">Status Riksa</label>
-                  <select id="sch-status" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                  <select id="sch-status"
+                    class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
                     <option value="Terjadwal">Terjadwal</option>
                     <option value="Otw Lokasi">OTW Lokasi</option>
                     <option value="Sedang Riksa Uji">Sedang Riksa Uji</option>
@@ -548,11 +638,13 @@
                 </div>
                 <div class="md:col-span-2">
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">Catatan Tambahan</label>
-                  <input type="text" id="sch-notes" placeholder="Contoh: Bawa UT Thickness Gauge & Hydrotest pump" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                  <input type="text" id="sch-notes" placeholder="Contoh: Bawa UT Thickness Gauge & Hydrotest pump"
+                    class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
                 </div>
 
                 <div class="md:col-span-3 flex justify-end">
-                  <button type="submit" class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider transition">
+                  <button type="submit"
+                    class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider transition">
                     Simpan Jadwal Riksa
                   </button>
                 </div>
@@ -567,7 +659,8 @@
               </div>
               <div class="overflow-x-auto custom-horizontal-scrollbar p-1">
                 <table class="w-full min-w-[960px] text-left">
-                  <thead class="bg-slate-900/80 text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-800">
+                  <thead
+                    class="bg-slate-900/80 text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-800">
                     <tr>
                       <th class="px-3 py-2.5 min-w-[130px]">Tanggal & Jam</th>
                       <th class="px-3 py-2.5 min-w-[260px]">Perusahaan & Alat</th>
@@ -588,7 +681,7 @@
 
           <!-- TAB 2: AHLI K3 & BACKLOG LAPORAN -->
           <div id="tab-inspectors" class="admin-tab-pane space-y-5 hidden">
-            
+
             <!-- Form Add/Edit Inspector -->
             <div class="p-4 rounded-2xl bg-slate-950/60 border border-slate-800">
               <div class="flex items-center justify-between mb-3">
@@ -603,34 +696,43 @@
               <form id="form-inspector" class="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div class="md:col-span-2">
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">Nama Lengkap & Gelar *</label>
-                  <input type="text" id="ins-name" placeholder="Contoh: Ir. Bambang Sugiarto, S.T., M.T." class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500" required>
+                  <input type="text" id="ins-name" placeholder="Contoh: Ir. Bambang Sugiarto, S.T., M.T."
+                    class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500"
+                    required>
                 </div>
                 <div>
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">Bidang Spesialisasi K3 *</label>
-                  <input type="text" id="ins-title" placeholder="Contoh: Ahli K3 PUBT & PTP" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500" required>
+                  <input type="text" id="ins-title" placeholder="Contoh: Ahli K3 PUBT & PTP"
+                    class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500"
+                    required>
                 </div>
 
                 <div>
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">No. HP / WhatsApp</label>
-                  <input type="text" id="ins-phone" placeholder="Contoh: 0812-8899-7711" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                  <input type="text" id="ins-phone" placeholder="Contoh: 0812-8899-7711"
+                    class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
                 </div>
                 <div>
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">No. Registrasi / SKP Kemnaker</label>
-                  <input type="text" id="ins-badge" placeholder="Contoh: SKP.421/NAKER/2023" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                  <input type="text" id="ins-badge" placeholder="Contoh: SKP.421/NAKER/2023"
+                    class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                   <div>
                     <label class="block text-[11px] font-bold text-slate-400 mb-1">Backlog Laporan</label>
-                    <input type="number" id="ins-backlog" min="0" value="0" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                    <input type="number" id="ins-backlog" min="0" value="0"
+                      class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
                   </div>
                   <div>
                     <label class="block text-[11px] font-bold text-slate-400 mb-1">Tertua (Hari)</label>
-                    <input type="number" id="ins-oldest-days" min="0" value="0" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                    <input type="number" id="ins-oldest-days" min="0" value="0"
+                      class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
                   </div>
                 </div>
 
                 <div class="md:col-span-3 flex justify-end">
-                  <button type="submit" class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider transition">
+                  <button type="submit"
+                    class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider transition">
                     Simpan Data Ahli K3
                   </button>
                 </div>
@@ -641,13 +743,16 @@
             <div class="rounded-2xl border border-slate-800 bg-slate-950/60 overflow-hidden">
               <div class="p-3 border-b border-slate-800 flex items-center justify-between">
                 <div>
-                  <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Leaderboard & Status Backlog Ahli K3</h4>
-                  <p class="text-[11px] text-slate-500">Gunakan tombol +/- untuk update cepat saat laporan diselesaikan</p>
+                  <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Leaderboard & Status Backlog
+                    Ahli K3</h4>
+                  <p class="text-[11px] text-slate-500">Gunakan tombol +/- untuk update cepat saat laporan diselesaikan
+                  </p>
                 </div>
               </div>
               <div class="overflow-x-auto custom-horizontal-scrollbar p-1">
                 <table class="w-full min-w-[850px] text-left">
-                  <thead class="bg-slate-900/80 text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-800">
+                  <thead
+                    class="bg-slate-900/80 text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-800">
                     <tr>
                       <th class="px-3 py-2.5 min-w-[220px]">Nama & Spesialisasi</th>
                       <th class="px-3 py-2.5 min-w-[180px]">Kontak & SKP</th>
@@ -668,19 +773,22 @@
 
           <!-- TAB 3: ARSIP & RIWAYAT -->
           <div id="tab-history" class="admin-tab-pane space-y-4 hidden">
-            
+
             <div class="p-3 rounded-2xl bg-slate-950/60 border border-slate-800 grid grid-cols-1 md:grid-cols-3 gap-3">
               <div>
                 <label class="block text-[11px] font-bold text-slate-400 mb-1">Cari Nama Perusahaan / Objek</label>
-                <input type="text" id="history-search" placeholder="Ketik kata kunci..." class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                <input type="text" id="history-search" placeholder="Ketik kata kunci..."
+                  class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
               </div>
               <div>
                 <label class="block text-[11px] font-bold text-slate-400 mb-1">Filter Tanggal Spesifik</label>
-                <input type="date" id="history-date-filter" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                <input type="date" id="history-date-filter"
+                  class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
               </div>
               <div>
                 <label class="block text-[11px] font-bold text-slate-400 mb-1">Kategori Bidang K3</label>
-                <select id="history-category-filter" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                <select id="history-category-filter"
+                  class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
                   <option value="">Semua Kategori</option>
                   <option value="PUBT">PUBT</option>
                   <option value="PAA">PAA</option>
@@ -697,7 +805,8 @@
             <div class="rounded-2xl border border-slate-800 bg-slate-950/60 overflow-hidden">
               <div class="overflow-x-auto custom-horizontal-scrollbar p-1">
                 <table class="w-full min-w-[850px] text-left">
-                  <thead class="bg-slate-900/80 text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-800">
+                  <thead
+                    class="bg-slate-900/80 text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-800">
                     <tr>
                       <th class="px-3 py-2.5 min-w-[140px]">Tanggal & Waktu</th>
                       <th class="px-3 py-2.5 min-w-[240px]">Nama Perusahaan</th>
@@ -718,7 +827,7 @@
 
           <!-- TAB 4: PENGATURAN & BACKUP -->
           <div id="tab-settings" class="admin-tab-pane space-y-5 hidden">
-            
+
             <div class="p-4 rounded-2xl bg-slate-950/60 border border-slate-800">
               <h4 class="text-xs font-black text-cyan-400 uppercase tracking-wider mb-3">
                 Konfigurasi PJK3 & Tampilan TV
@@ -728,29 +837,36 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div>
                     <label class="block text-[11px] font-bold text-slate-400 mb-1">Nama Perusahaan PJK3</label>
-                    <input type="text" id="set-pjk3-name" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                    <input type="text" id="set-pjk3-name"
+                      class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
                   </div>
                   <div>
                     <label class="block text-[11px] font-bold text-slate-400 mb-1">Sub Judul / Slogan</label>
-                    <input type="text" id="set-pjk3-sub" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                    <input type="text" id="set-pjk3-sub"
+                      class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
                   </div>
                   <div>
                     <label class="block text-[11px] font-bold text-slate-400 mb-1">Nomor Registrasi SKP Kemnaker</label>
-                    <input type="text" id="set-pjk3-reg" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                    <input type="text" id="set-pjk3-reg"
+                      class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
                   </div>
                   <div>
                     <label class="block text-[11px] font-bold text-slate-400 mb-1">PIN Akses Admin</label>
-                    <input type="text" id="set-admin-pin" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
+                    <input type="text" id="set-admin-pin"
+                      class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
                   </div>
                 </div>
 
                 <div>
-                  <label class="block text-[11px] font-bold text-slate-400 mb-1">Running Text / Safety Broadcast Ticker</label>
-                  <textarea id="set-running-text" rows="2" class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500 resize-none"></textarea>
+                  <label class="block text-[11px] font-bold text-slate-400 mb-1">Running Text / Safety Broadcast
+                    Ticker</label>
+                  <textarea id="set-running-text" rows="2"
+                    class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500 resize-none"></textarea>
                 </div>
 
                 <div class="flex justify-end">
-                  <button type="submit" class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider transition">
+                  <button type="submit"
+                    class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider transition">
                     Simpan Pengaturan
                   </button>
                 </div>
@@ -763,22 +879,26 @@
                 Pencadangan & Pemulihan Data (Offline Database)
               </h4>
               <p class="text-xs text-slate-400 mb-3">
-                Seluruh data tersimpan secara aman di <code>localStorage</code> browser ini. Anda dapat mengunduh backup JSON kapan saja untuk dipindahkan ke komputer atau TV lain.
+                Seluruh data tersimpan secara aman di <code>localStorage</code> browser ini. Anda dapat mengunduh backup
+                JSON kapan saja untuk dipindahkan ke komputer atau TV lain.
               </p>
 
               <div class="flex flex-wrap items-center gap-2.5">
-                <button id="btn-export-backup" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center space-x-1.5 transition">
+                <button id="btn-export-backup"
+                  class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center space-x-1.5 transition">
                   <i data-lucide="download-cloud" class="w-4 h-4"></i>
                   <span>Unduh File Backup JSON</span>
                 </button>
 
-                <label class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center space-x-1.5 border border-slate-700 cursor-pointer transition">
+                <label
+                  class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center space-x-1.5 border border-slate-700 cursor-pointer transition">
                   <i data-lucide="upload-cloud" class="w-4 h-4"></i>
                   <span>Pulihkan dari File Backup</span>
                   <input type="file" id="input-import-backup" accept=".json" class="hidden">
                 </label>
 
-                <button id="btn-reset-demo" class="px-3.5 py-2 rounded-xl bg-rose-950/60 hover:bg-rose-900 text-rose-300 font-bold text-xs flex items-center space-x-1.5 border border-rose-800/60 transition ml-auto">
+                <button id="btn-reset-demo"
+                  class="px-3.5 py-2 rounded-xl bg-rose-950/60 hover:bg-rose-900 text-rose-300 font-bold text-xs flex items-center space-x-1.5 border border-rose-800/60 transition ml-auto">
                   <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
                   <span>Reset ke Data Demo</span>
                 </button>
@@ -804,4 +924,5 @@
   <script src="js/app.js"></script>
 
 </body>
+
 </html>
