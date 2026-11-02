@@ -755,26 +755,26 @@ class RakanaApp {
                 </div>
               </div>
 
-              <!-- Objek Riksa (Gabungan Semua Alat: PAA, PUBT, Listrik, PTP, dll) -->
-              <div class="my-1.5 space-y-1 overflow-y-auto custom-scrollbar flex-1 pr-0.5 min-h-[40px]">
+              <!-- Objek Riksa (Format Memanjang Inline, Tanpa Scroll) -->
+              <div class="my-2 flex flex-wrap items-center gap-1.5 shrink-0">
                 ${grp.equipments.map(eq => {
                   const catClass = `badge-${eq.category ? eq.category.toLowerCase() : 'pubt'}`;
                   return `
-                    <div class="flex items-center space-x-1.5 text-xs bg-slate-900/60 px-2 py-1 rounded-lg border border-slate-800/50">
+                    <span class="inline-flex items-center space-x-1.5 px-2 py-0.5 rounded-lg bg-slate-900/90 border border-slate-800/80 shadow-sm text-xs">
                       <span class="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider ${catClass} shrink-0">
                         ${eq.category}
                       </span>
-                      <span class="font-bold text-cyan-200 truncate flex-1" title="${eq.name}">
+                      <span class="font-bold text-cyan-200 text-xs">
                         🔧 ${eq.name}
                       </span>
-                    </div>
+                    </span>
                   `;
                 }).join('')}
               </div>
 
               <!-- Ahli K3 Penanggung Jawab -->
-              <div class="text-[11px] text-slate-300 font-semibold truncate flex items-center space-x-1.5 shrink-0 pt-0.5">
-                <span>👷</span>
+              <div class="text-[11px] sm:text-xs text-slate-300 font-semibold truncate flex items-center space-x-1.5 shrink-0 pt-0.5">
+                <span class="text-amber-400">👷</span>
                 <span class="text-slate-200 font-bold truncate">Ahli K3: ${grp.inspectors.join(' • ') || 'Tim Ahli K3 Rakana'}</span>
               </div>
             </div>
