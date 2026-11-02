@@ -478,7 +478,98 @@ class RakanaApp {
     }
   }
 
-  // --- SLIDE 1: DYNAMIC FLEXIBLE WEEKLY BOARD (HANYA HARI YANG ADA RIKSA) ---
+  // Helper: Group schedules by company (1 Box per PT/Perusahaan)
+  groupSchedulesByCompany(schedules) {
+    const map = new Map();
+
+    schedules.forEach(sch => {
+      // Normalize company name (remove copy tags and trim)
+      const rawName = (sch.companyName || 'Tanpa Nama PT').trim();
+      const cleanName = rawName.replace(/(\s*\(Copy\))+/gi, '').trim();
+      const key = cleanName.toLowerCase();
+
+      if (!map.has(key)) {
+        map.set(key, {
+          companyName: cleanName,
+          address: sch.address || '',
+          time: sch.time || '08:30',
+          times: [sch.time || '08:30'],
+          companyPicName: sch.companyPicName || '',
+          companyPicPhone: sch.companyPicPhone || '',
+          equipments: [],
+          categories: [],
+          inspectors: [],
+          statuses: [sch.status || 'Terjadwal'],
+          notes: []
+        });
+      }
+
+      const grp = map.get(key);
+
+      // Collect equipment
+      if (sch.equipmentName) {
+        grp.equipments.push({
+          category: sch.category || 'K3',
+          name: sch.equipmentName,
+          type: sch.inspectionType || ''
+        });
+      }
+
+      // Collect unique category
+      if (sch.category && !grp.categories.includes(sch.category)) {
+        grp.categories.push(sch.category);
+      }
+
+      // Collect unique inspector
+      if (sch.inspectorName && !grp.inspectors.includes(sch.inspectorName)) {
+        grp.inspectors.push(sch.inspectorName);
+      }
+
+      // Collect status
+      if (sch.status && !grp.statuses.includes(sch.status)) {
+        grp.statuses.push(sch.status);
+      }
+
+      // Keep best PIC contact info
+      if (!grp.companyPicName && sch.companyPicName) grp.companyPicName = sch.companyPicName;
+      const curPhone = (grp.companyPicPhone || '').trim();
+      const newPhone = (sch.companyPicPhone || '').trim();
+      if ((!curPhone || curPhone === '-') && (newPhone && newPhone !== '-')) {
+        grp.companyPicPhone = newPhone;
+      }
+
+      if (sch.notes && !grp.notes.includes(sch.notes)) {
+        grp.notes.push(sch.notes);
+      }
+
+      if (sch.time && !grp.times.includes(sch.time)) {
+        grp.times.push(sch.time);
+      }
+    });
+
+    return Array.from(map.values()).map(grp => {
+      // Sort times and pick earliest
+      grp.times.sort();
+      grp.time = grp.times[0] || '08:30';
+
+      // Pick overall priority status
+      if (grp.statuses.includes('Sedang Riksa Uji')) {
+        grp.overallStatus = 'Sedang Riksa Uji';
+      } else if (grp.statuses.includes('Otw Lokasi')) {
+        grp.overallStatus = 'Otw Lokasi';
+      } else if (grp.statuses.includes('Terjadwal')) {
+        grp.overallStatus = 'Terjadwal';
+      } else if (grp.statuses.includes('Selesai Riksa')) {
+        grp.overallStatus = 'Selesai Riksa';
+      } else {
+        grp.overallStatus = grp.statuses[0] || 'Terjadwal';
+      }
+
+      return grp;
+    }).sort((a, b) => a.time.localeCompare(b.time));
+  }
+
+  // --- SLIDE 1: DYNAMIC FLEXIBLE WEEKLY BOARD (BOX PER PERUSAHAAN) ---
 
   renderWeeklyBoard() {
     const container = document.getElementById('weekly-board-container');
@@ -578,6 +669,10 @@ class RakanaApp {
     activeDayObjects.forEach((dayObj) => {
       const isToday = dayObj.dateStr === today;
 
+      // Group schedules by company (1 Box = 1 Perusahaan)
+      const companyGroups = this.groupSchedulesByCompany(dayObj.schedules);
+      const totalEquipments = companyGroups.reduce((acc, c) => acc + c.equipments.length, 0);
+
       // Format date like "02 Nov"
       let dateFormatted = dayObj.dateStr;
       if (dayObj.dateStr) {
@@ -596,12 +691,7 @@ class RakanaApp {
         ? 'border-cyan-500/80 bg-slate-900/90 glow-cyan'
         : 'border-slate-800/80 bg-slate-900/60';
 
-      // DYNAMIC ADAPTIVE DENSITY:
-      // If a day has 4 or more schedules, use sleek compact card styling so ALL cards fit 100% without vertical scrollbar!
-      const count = dayObj.schedules.length;
-      const isDense = count >= 4;
-      
-      const stackClass = 'flex flex-col gap-1.5 h-full flex-1 min-h-0 overflow-hidden';
+      const stackClass = 'flex flex-col gap-2 h-full flex-1 min-h-0 overflow-hidden';
       const colWidthClass = isWideScreen ? 'w-full' : 'min-w-[280px] w-[300px] shrink-0';
 
       html += `
@@ -616,141 +706,97 @@ class RakanaApp {
             
             <div class="flex items-center space-x-1.5">
               ${isToday ? `<span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-slate-950 text-cyan-300">HARI INI</span>` : ''}
-              <span class="px-2 py-0.5 rounded text-xs font-mono font-bold ${isToday ? 'bg-slate-950/30 text-white' : 'bg-slate-800 text-slate-300'}">
-                ${dayObj.schedules.length} Riksa
+              <span class="px-2 py-0.5 rounded text-xs font-mono font-bold ${isToday ? 'bg-slate-950/30 text-white' : 'bg-slate-800 text-slate-300'}" title="${totalEquipments} Objek Riksa">
+                ${companyGroups.length} PT ${totalEquipments > companyGroups.length ? `(${totalEquipments} Alat)` : ''}
               </span>
             </div>
           </div>
 
-          <!-- Cards Stack (100% Zero Scroll TV Mode, flex-1 min-h-0) -->
+          <!-- Cards Stack (1 BOX = 1 PERUSAHAAN, 100% Zero-Scroll) -->
           <div class="${stackClass}">
       `;
 
-      dayObj.schedules.forEach((sch) => {
-        const catClass = `badge-${sch.category ? sch.category.toLowerCase() : 'pubt'}`;
-        
+      companyGroups.forEach((grp) => {
         let statusDot = 'bg-blue-400';
         let cardPulse = '';
 
-        if (sch.status === 'Sedang Riksa Uji') {
+        if (grp.overallStatus === 'Sedang Riksa Uji') {
           statusDot = 'bg-emerald-400 beacon-dot';
           cardPulse = 'border-emerald-500/70 bg-emerald-950/20';
-        } else if (sch.status === 'Otw Lokasi') {
+        } else if (grp.overallStatus === 'Otw Lokasi') {
           statusDot = 'bg-yellow-400';
-        } else if (sch.status === 'Selesai Riksa') {
+        } else if (grp.overallStatus === 'Selesai Riksa') {
           statusDot = 'bg-slate-500';
         }
 
-        const rawPhone = (sch.companyPicPhone || '').trim();
+        const rawPhone = (grp.companyPicPhone || '').trim();
         const hasPhone = rawPhone && rawPhone !== '-' && rawPhone !== '0';
         const cleanPhone = rawPhone.replace(/[^0-9]/g, '');
         const waPhone = cleanPhone.startsWith('0') ? '62' + cleanPhone.substring(1) : cleanPhone;
-        const waMsg = encodeURIComponent(`Halo ${sch.companyPicName || 'Bpk/Ibu'}, kami dari ${RakanaDB.getSettings().pjk3Name} ingin konfirmasi riksa uji K3 (${sch.category}) untuk ${sch.companyName}.`);
+        const waMsg = encodeURIComponent(`Halo ${grp.companyPicName || 'Bpk/Ibu'}, kami dari ${RakanaDB.getSettings().pjk3Name} ingin konfirmasi agenda riksa uji K3 untuk ${grp.companyName}.`);
         const waLink = cleanPhone ? `https://wa.me/${waPhone}?text=${waMsg}` : '#';
 
-        if (isDense) {
-          // --- COMPACT ADAPTIVE CARD (For days with 4, 5, or 6 schedules) ---
-          // Fits 100% inside 1 screen height with zero vertical scroll
-          html += `
-            <div class="tv-card-enter rounded-xl bg-slate-950/90 hover:bg-slate-950 border border-slate-800/90 p-1.5 sm:p-2 flex-1 min-h-0 flex flex-col justify-between shadow-sm transition overflow-hidden ${cardPulse}">
-              
-              <!-- Row 1: Category, Company & Time -->
-              <div class="flex items-center justify-between gap-1.5 shrink-0">
-                <div class="flex items-center space-x-1.5 min-w-0">
-                  <span class="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider ${catClass} shrink-0">
-                    ${sch.category || 'K3'}
-                  </span>
-                  <span class="font-black text-xs md:text-sm text-white truncate leading-tight" title="${sch.companyName}">
-                    ${sch.companyName}
-                  </span>
+        html += `
+          <div class="tv-card-enter rounded-xl bg-slate-950/90 hover:bg-slate-950 border border-slate-800/90 p-2.5 sm:p-3 flex-1 min-h-0 flex flex-col justify-between shadow-md transition overflow-hidden ${cardPulse}">
+            
+            <div class="min-h-0 flex flex-col overflow-hidden">
+              <!-- Top Row: Nama Perusahaan & Jam Kunjungan -->
+              <div class="flex items-start justify-between gap-1.5 pb-1.5 border-b border-slate-800/80 shrink-0">
+                <div class="min-w-0 flex-1">
+                  <div class="font-black text-xs sm:text-sm md:text-base text-white tracking-tight line-clamp-1 leading-tight" title="${grp.companyName}">
+                    ${grp.companyName}
+                  </div>
+                  ${grp.address ? `<div class="text-[10px] text-slate-400 truncate mt-0.5" title="${grp.address}">📍 ${grp.address}</div>` : ''}
                 </div>
-                <div class="flex items-center space-x-1 text-[10px] sm:text-[11px] font-mono font-bold text-cyan-400 shrink-0">
+
+                <div class="flex items-center space-x-1 shrink-0 px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-[11px] font-mono font-bold text-cyan-400">
                   <span class="w-1.5 h-1.5 rounded-full ${statusDot}"></span>
-                  <span>${sch.time || '08:30'}</span>
+                  <span>${grp.time || '08:30'} WIB</span>
                 </div>
               </div>
 
-              <!-- Row 2: Equipment & Inspector -->
-              <div class="flex items-center justify-between text-[10px] sm:text-[11px] text-slate-300 gap-1 my-0.5 min-w-0">
-                <span class="text-cyan-200/90 font-medium truncate flex-1" title="${sch.equipmentName}">
-                  🔧 ${sch.equipmentName || 'Riksa Uji K3'}
-                </span>
-                <span class="text-slate-400 font-semibold truncate shrink-0 max-w-[45%]" title="${sch.inspectorName}">
-                  👷 ${sch.inspectorName}
-                </span>
+              <!-- Objek Riksa (Gabungan Semua Alat: PAA, PUBT, Listrik, PTP, dll) -->
+              <div class="my-1.5 space-y-1 overflow-y-auto custom-scrollbar flex-1 pr-0.5 min-h-[40px]">
+                ${grp.equipments.map(eq => {
+                  const catClass = `badge-${eq.category ? eq.category.toLowerCase() : 'pubt'}`;
+                  return `
+                    <div class="flex items-center space-x-1.5 text-xs bg-slate-900/60 px-2 py-1 rounded-lg border border-slate-800/50">
+                      <span class="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider ${catClass} shrink-0">
+                        ${eq.category}
+                      </span>
+                      <span class="font-bold text-cyan-200 truncate flex-1" title="${eq.name}">
+                        🔧 ${eq.name}
+                      </span>
+                    </div>
+                  `;
+                }).join('')}
               </div>
 
-              <!-- Row 3: PIC & Contact Strip (Emerald) -->
-              <div class="p-1 px-1.5 rounded-lg bg-emerald-950/50 border border-emerald-500/40 text-emerald-200 flex items-center justify-between gap-1 text-[10px] shrink-0">
-                <div class="flex items-center space-x-1.5 truncate flex-1 min-w-0">
-                  <span class="text-emerald-400 font-bold truncate">👤 ${sch.companyPicName || 'PIC Lapangan'}</span>
-                  ${hasPhone ? `
-                    <span class="text-emerald-600">•</span>
-                    <span class="font-mono font-bold text-emerald-300 truncate tracking-wide">📞 ${sch.companyPicPhone}</span>
-                  ` : ''}
-                </div>
-                ${cleanPhone ? `
-                  <a href="${waLink}" target="_blank" class="px-1.5 py-0.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[9px] uppercase tracking-wider shadow transition shrink-0" title="Chat WhatsApp">
-                    WA
-                  </a>
+              <!-- Ahli K3 Penanggung Jawab -->
+              <div class="text-[11px] text-slate-300 font-semibold truncate flex items-center space-x-1.5 shrink-0 pt-0.5">
+                <span>👷</span>
+                <span class="text-slate-200 font-bold truncate">Ahli K3: ${grp.inspectors.join(' • ') || 'Tim Ahli K3 Rakana'}</span>
+              </div>
+            </div>
+
+            <!-- Footer: PIC & Telepon Lapangan (Emerald High-Contrast Box) -->
+            <div class="mt-2 p-1.5 px-2 rounded-lg bg-emerald-950/60 border border-emerald-500/40 text-emerald-200 flex items-center justify-between text-xs shrink-0">
+              <div class="flex items-center space-x-1.5 truncate flex-1 min-w-0">
+                <span class="text-emerald-400 font-extrabold truncate">👤 ${grp.companyPicName || 'PIC Lapangan'}</span>
+                ${hasPhone ? `
+                  <span class="text-emerald-600">•</span>
+                  <span class="font-mono font-black text-emerald-300 tracking-wide truncate">📞 ${grp.companyPicPhone}</span>
                 ` : ''}
               </div>
-
+              ${cleanPhone ? `
+                <a href="${waLink}" target="_blank" class="px-2 py-0.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[10px] uppercase tracking-wider shadow transition shrink-0 ml-1.5" title="Chat WhatsApp">
+                  WA
+                </a>
+              ` : ''}
             </div>
-          `;
-        } else {
-          // --- SPACIOUS CARD (For days with 1, 2, or 3 schedules) ---
-          html += `
-            <div class="tv-card-enter rounded-xl bg-slate-950/90 hover:bg-slate-950 border border-slate-800/90 p-2.5 flex-1 min-h-0 flex flex-col justify-between shadow-md transition overflow-hidden ${cardPulse}">
-              
-              <div>
-                <!-- Category & Time -->
-                <div class="flex items-center justify-between gap-1 mb-1">
-                  <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider ${catClass}">
-                    ${sch.category || 'K3'}
-                  </span>
-                  <div class="flex items-center space-x-1 text-[11px] font-mono font-bold text-cyan-400">
-                    <span class="w-1.5 h-1.5 rounded-full ${statusDot}"></span>
-                    <span>${sch.time || '08:30'} WIB</span>
-                  </div>
-                </div>
 
-                <!-- Company Name (Large, Bold, High Legibility) -->
-                <div class="font-black text-xs md:text-sm text-white line-clamp-1 leading-tight tracking-tight mt-0.5" title="${sch.companyName}">
-                  ${sch.companyName}
-                </div>
-
-                <!-- Equipment -->
-                <div class="text-[11px] text-cyan-200/90 font-medium line-clamp-1 mt-0.5" title="${sch.equipmentName}">
-                  🔧 ${sch.equipmentName || 'Riksa Uji K3'}
-                </div>
-
-                <!-- Ahli K3 in charge -->
-                <div class="text-[11px] text-slate-300 font-semibold line-clamp-1 mt-0.5" title="${sch.inspectorName}">
-                  👷 ${sch.inspectorName}
-                </div>
-              </div>
-
-              <!-- PROMINENT PIC & PHONE BOX (EMERALD HIGH CONTRAST) -->
-              <div class="mt-1.5 p-1.5 rounded-lg bg-emerald-950/50 border border-emerald-500/40 text-emerald-200 shrink-0">
-                <div class="text-[10px] text-emerald-400 font-extrabold truncate leading-tight">
-                  👤 ${sch.companyPicName || 'PIC Lapangan'}
-                </div>
-                <div class="flex items-center justify-between mt-0.5">
-                  <span class="text-xs font-black font-mono text-emerald-300 tracking-wide">
-                    📞 ${sch.companyPicPhone || '-'}
-                  </span>
-                  ${cleanPhone ? `
-                    <a href="${waLink}" target="_blank" class="px-2 py-0.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[10px] uppercase tracking-wider shadow transition" title="Chat WhatsApp">
-                      WA
-                    </a>
-                  ` : ''}
-                </div>
-              </div>
-
-            </div>
-          `;
-        }
+          </div>
+        `;
       });
 
       html += `

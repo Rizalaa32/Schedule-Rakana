@@ -414,7 +414,7 @@ class AdminManager {
     const copy = {
       ...sch,
       id: 'sch-' + Date.now(),
-      companyName: sch.companyName + ' (Copy)',
+      companyName: sch.companyName.replace(/(\s*\(Copy\))+/gi, '').trim(),
       status: 'Terjadwal'
     };
     schedules.unshift(copy);

@@ -463,7 +463,18 @@ class RakanaDB {
         this.saveSchedules(defaultSchedules);
         return defaultSchedules;
       }
-      return JSON.parse(data);
+      const parsed = JSON.parse(data);
+      let changed = false;
+      parsed.forEach(s => {
+        if (s.companyName && s.companyName.includes('(Copy)')) {
+          s.companyName = s.companyName.replace(/(\s*\(Copy\))+/gi, '').trim();
+          changed = true;
+        }
+      });
+      if (changed) {
+        this.saveSchedules(parsed);
+      }
+      return parsed;
     } catch (e) {
       console.error('Error reading schedules:', e);
       return generateDefaultSchedules();

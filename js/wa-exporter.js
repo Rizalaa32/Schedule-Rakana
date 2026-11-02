@@ -52,6 +52,43 @@ class WhatsAppExporter {
   }
 
   /**
+   * Helper: Group schedules by company for clean WhatsApp broadcast
+   */
+  static groupSchedulesByCompany(schedules) {
+    const map = new Map();
+    schedules.forEach(sch => {
+      const cleanName = (sch.companyName || 'Tanpa Nama PT').replace(/(\s*\(Copy\))+/gi, '').trim();
+      const key = cleanName.toLowerCase();
+      if (!map.has(key)) {
+        map.set(key, {
+          companyName: cleanName,
+          time: sch.time || '08:30',
+          address: sch.address || '',
+          companyPicName: sch.companyPicName || '',
+          companyPicPhone: sch.companyPicPhone || '',
+          status: sch.status || 'Terjadwal',
+          equipments: [],
+          inspectors: []
+        });
+      }
+      const g = map.get(key);
+      if (sch.equipmentName) {
+        g.equipments.push(sch.category ? `[${sch.category}] ${sch.equipmentName}` : sch.equipmentName);
+      }
+      if (sch.inspectorName && !g.inspectors.includes(sch.inspectorName)) {
+        g.inspectors.push(sch.inspectorName);
+      }
+      if (!g.companyPicName && sch.companyPicName) g.companyPicName = sch.companyPicName;
+      const curPhone = (g.companyPicPhone || '').trim();
+      const newPhone = (sch.companyPicPhone || '').trim();
+      if ((!curPhone || curPhone === '-') && (newPhone && newPhone !== '-')) {
+        g.companyPicPhone = newPhone;
+      }
+    });
+    return Array.from(map.values()).sort((a, b) => a.time.localeCompare(b.time));
+  }
+
+  /**
    * Generates Full Weekly Schedule broadcast text for WhatsApp (Senin - Sabtu)
    */
   static generateWeeklySchedule() {
@@ -70,25 +107,23 @@ class WhatsAppExporter {
     let totalThisWeek = 0;
 
     weekDates.slice(0, 6).forEach((dateStr) => {
-      const daySchedules = schedules
-        .filter(s => s.date === dateStr)
-        .sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+      const daySchedules = schedules.filter(s => s.date === dateStr);
+      const companyGroups = this.groupSchedulesByCompany(daySchedules);
 
       const formattedDay = this.formatDateIndonesian(dateStr);
-      text += `📌 *${formattedDay.toUpperCase()}* (${daySchedules.length} Lokasi)\n`;
+      text += `📌 *${formattedDay.toUpperCase()}* (${companyGroups.length} Perusahaan)\n`;
 
-      if (daySchedules.length === 0) {
+      if (companyGroups.length === 0) {
         text += `   _Tidak ada agenda riksa lapangan (Standby / Draft LHPP)_\n\n`;
       } else {
-        totalThisWeek += daySchedules.length;
-        daySchedules.forEach((sch, i) => {
-          const cat = this.getCategoryEmoji(sch.category);
-          text += `   ${i + 1}. *${sch.companyName}* ${cat}\n`;
-          text += `      ⏰ Waktu: ${sch.time || '08:30'} WIB\n`;
-          text += `      👷 Ahli K3: *${sch.inspectorName}*\n`;
-          text += `      👤 PIC Klien: *${sch.companyPicName || '-'}* (📞 ${sch.companyPicPhone || '-'})\n`;
-          text += `      🔧 Objek: ${sch.equipmentName || '-'}\n`;
-          text += `      📍 Lokasi: ${sch.address || '-'}\n`;
+        totalThisWeek += companyGroups.length;
+        companyGroups.forEach((grp, i) => {
+          text += `   ${i + 1}. *${grp.companyName}*\n`;
+          text += `      ⏰ Waktu: ${grp.time || '08:30'} WIB\n`;
+          text += `      👷 Ahli K3: *${grp.inspectors.join(', ') || 'Tim Ahli K3'}*\n`;
+          text += `      👤 PIC: *${grp.companyPicName || '-'}* (📞 ${grp.companyPicPhone || '-'})\n`;
+          text += `      🔧 Objek: ${grp.equipments.join(' • ') || '-'}\n`;
+          if (grp.address) text += `      📍 Lokasi: ${grp.address}\n`;
         });
         text += `\n`;
       }
@@ -111,9 +146,8 @@ class WhatsAppExporter {
     const inspectors = RakanaDB.getInspectors();
 
     const dateToQuery = targetDate || getRelativeDate(0);
-    const daySchedule = schedules
-      .filter(s => s.date === dateToQuery)
-      .sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+    const daySchedule = schedules.filter(s => s.date === dateToQuery);
+    const companyGroups = this.groupSchedulesByCompany(daySchedule);
 
     const formattedDate = this.formatDateIndonesian(dateToQuery);
     const numIcons = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
@@ -123,29 +157,23 @@ class WhatsAppExporter {
     text += `📅 *Hari/Tanggal:* ${formattedDate}\n`;
     text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
-    if (daySchedule.length === 0) {
+    if (companyGroups.length === 0) {
       text += `_Tidak ada agenda riksa uji lapangan yang terjadwal untuk tanggal ini._\n`;
       text += `_Seluruh personel Ahli K3 standby & fokus penyusunan Laporan Hasil Pemeriksaan (LHPP)._\n\n`;
     } else {
-      text += `📍 *DAFTAR AGENDA RIKSA UJI LAPANGAN (${daySchedule.length} Perusahaan):*\n\n`;
+      text += `📍 *DAFTAR AGENDA RIKSA UJI LAPANGAN (${companyGroups.length} Perusahaan):*\n\n`;
 
-      daySchedule.forEach((sch, idx) => {
+      companyGroups.forEach((grp, idx) => {
         const num = numIcons[idx] || `[${idx + 1}]`;
-        const catBadge = this.getCategoryEmoji(sch.category);
-        const statusBadge = this.getStatusEmoji(sch.status);
+        const statusBadge = this.getStatusEmoji(grp.status);
 
-        text += `${num} *${sch.companyName.toUpperCase()}*\n`;
-        text += `   ${catBadge} - ${sch.inspectionType || 'Riksa Uji'}\n`;
-        text += `   ⏰ *Waktu:* Pukul ${sch.time || '08:30'} WIB\n`;
-        text += `   📍 *Lokasi:* ${sch.address || '-'}\n`;
-        text += `   🔧 *Objek Uji:* ${sch.equipmentName || '-'}\n`;
-        text += `   👷 *Ahli K3 / Inspektur:* *${sch.inspectorName}*\n`;
-        text += `   👤 *PIC Klien:* ${sch.companyPicName || '-'} (📞 ${sch.companyPicPhone || '-'})\n`;
-        text += `   📊 *Status:* ${statusBadge}\n`;
-        if (sch.notes && sch.notes.trim() !== '') {
-          text += `   📝 *Catatan:* _${sch.notes}_\n`;
-        }
-        text += `\n`;
+        text += `${num} *${grp.companyName.toUpperCase()}*\n`;
+        text += `   ⏰ *Waktu:* Pukul ${grp.time || '08:30'} WIB\n`;
+        if (grp.address) text += `   📍 *Lokasi:* ${grp.address}\n`;
+        text += `   🔧 *Objek Riksa:* ${grp.equipments.join(' • ') || '-'}\n`;
+        text += `   👷 *Ahli K3 / Inspektur:* *${grp.inspectors.join(', ') || 'Tim Ahli K3'}*\n`;
+        text += `   👤 *PIC Klien:* ${grp.companyPicName || '-'} (📞 ${grp.companyPicPhone || '-'})\n`;
+        text += `   📊 *Status:* ${statusBadge}\n\n`;
       });
     }
 
