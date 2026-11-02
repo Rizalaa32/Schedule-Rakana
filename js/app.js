@@ -419,7 +419,7 @@ class RakanaApp {
     const brandSubEl = document.getElementById('header-pjk3-sub');
     const brandRegEl = document.getElementById('header-pjk3-reg');
 
-    if (brandNameEl) brandNameEl.innerText = s.pjk3Name || 'PT. RAKANA INSPEKSI TEKNIK';
+    if (brandNameEl) brandNameEl.innerText = s.pjk3Name || 'PT. RAKANA MITRA RIKSA';
     if (brandSubEl) brandSubEl.innerText = s.pjk3SubTitle || 'PJK3 Bidang Riksa Uji K3 Kemnaker RI';
     if (brandRegEl) brandRegEl.innerText = s.pjk3RegNo || 'SKP KEMNAKER RI';
   }

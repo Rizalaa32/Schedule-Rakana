@@ -64,9 +64,9 @@ function isDateInThisWeek(dateString) {
 }
 
 const DEFAULT_SETTINGS = {
-  pjk3Name: 'PT. RAKANA INSPEKSI TEKNIK',
-  pjk3SubTitle: 'PJK3 Bidang Pemeriksaan & Pengujian K3 Kemnaker RI',
-  pjk3RegNo: 'SKP No: 560/124/PJK3/IX/2024',
+  pjk3Name: 'PT. RAKANA MITRA RIKSA',
+  pjk3SubTitle: 'Layanan Riksa Uji K3 Kemnaker RI',
+  pjk3RegNo: '-',
   adminPin: '1234',
   autoRotateIntervalSec: 15, // seconds per slide
   autoRotateEnabled: true,
