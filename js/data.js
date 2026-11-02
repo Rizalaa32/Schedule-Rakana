@@ -72,7 +72,8 @@ const DEFAULT_SETTINGS = {
   autoRotateEnabled: true,
   soundEnabled: true,
   theme: 'dark',
-  runningText: '⛑️ UTAMAKAN KESELAMATAN & KESEHATAN KERJA • ZERO ACCIDENT IS OUR PRIORITY • PASTIKAN SELURUH OBJEK RIKSA MEMILIKI SUKET/SLO RESMI • LAPORAN TEPAT WAKTU, AUDIT KLIEN AMAN!'
+  runningText: '⛑️ UTAMAKAN KESELAMATAN & KESEHATAN KERJA • ZERO ACCIDENT IS OUR PRIORITY • PASTIKAN SELURUH OBJEK RIKSA MEMILIKI SUKET/SLO RESMI • LAPORAN TEPAT WAKTU, AUDIT KLIEN AMAN!',
+  version: 2
 };
 
 const DEFAULT_INSPECTORS = [
@@ -391,7 +392,17 @@ class RakanaDB {
   static getSettings() {
     try {
       const data = localStorage.getItem(STORAGE_KEYS.SETTINGS);
-      return data ? { ...DEFAULT_SETTINGS, ...JSON.parse(data) } : DEFAULT_SETTINGS;
+      if (!data) return DEFAULT_SETTINGS;
+      const parsed = JSON.parse(data);
+      // Auto-migrate old legacy name if stored in user's browser localStorage
+      if (parsed.pjk3Name === 'PT. RAKANA INSPEKSI TEKNIK' || !parsed.version || parsed.version < 2) {
+        parsed.pjk3Name = DEFAULT_SETTINGS.pjk3Name;
+        parsed.pjk3SubTitle = DEFAULT_SETTINGS.pjk3SubTitle;
+        parsed.pjk3RegNo = DEFAULT_SETTINGS.pjk3RegNo;
+        parsed.version = 2;
+        this.saveSettings(parsed);
+      }
+      return { ...DEFAULT_SETTINGS, ...parsed };
     } catch (e) {
       console.error('Error reading settings:', e);
       return DEFAULT_SETTINGS;
@@ -415,7 +426,19 @@ class RakanaDB {
         this.saveInspectors(DEFAULT_INSPECTORS);
         return DEFAULT_INSPECTORS;
       }
-      return JSON.parse(data);
+      const parsed = JSON.parse(data);
+      if (!Array.isArray(parsed) || parsed.length === 0) {
+        this.saveInspectors(DEFAULT_INSPECTORS);
+        return DEFAULT_INSPECTORS;
+      }
+      // If user has old state where total backlog is 0 or empty, reload DEFAULT_INSPECTORS once
+      const totalPending = parsed.reduce((sum, ins) => sum + (parseInt(ins.pendingReports) || 0), 0);
+      if (totalPending === 0 && !localStorage.getItem('rakana_pjk3_inspectors_v2_synced')) {
+        localStorage.setItem('rakana_pjk3_inspectors_v2_synced', 'true');
+        this.saveInspectors(DEFAULT_INSPECTORS);
+        return DEFAULT_INSPECTORS;
+      }
+      return parsed;
     } catch (e) {
       console.error('Error reading inspectors:', e);
       return DEFAULT_INSPECTORS;
@@ -462,6 +485,7 @@ class RakanaDB {
       localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(DEFAULT_SETTINGS));
       localStorage.setItem(STORAGE_KEYS.INSPECTORS, JSON.stringify(DEFAULT_INSPECTORS));
       localStorage.setItem(STORAGE_KEYS.SCHEDULES, JSON.stringify(generateDefaultSchedules()));
+      localStorage.setItem('rakana_pjk3_inspectors_v2_synced', 'true');
       return true;
     } catch (e) {
       console.error('Error resetting demo data:', e);
