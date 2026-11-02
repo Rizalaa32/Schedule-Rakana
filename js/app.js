@@ -387,6 +387,11 @@ class RakanaApp {
         this.closeAllModals();
       }
     });
+
+    // Handle Window Resize for TV/Preview responsive layouts
+    window.addEventListener('resize', () => {
+      this.renderWeeklyBoard();
+    });
   }
 
   toggleFullscreen() {
@@ -549,8 +554,11 @@ class RakanaApp {
     }
 
     // 2. DYNAMIC COLUMN SIZING:
-    // When only 3 days have riksa, grid-cols-3! Each column gets 33.3% width instead of being squeezed!
+    // On wide TV screen (>= 1200px): columns auto-fill full width (grid-cols-N)
+    // On narrower preview pane or laptop (< 1200px): smooth horizontal scroll with min-w-[280px] per column
+    const isWideScreen = window.innerWidth >= 1200;
     const numCols = Math.max(1, Math.min(6, activeDayObjects.length));
+    
     let colClass = 'grid-cols-3';
     if (numCols === 1) colClass = 'grid-cols-1';
     else if (numCols === 2) colClass = 'grid-cols-2';
@@ -559,7 +567,11 @@ class RakanaApp {
     else if (numCols === 5) colClass = 'grid-cols-5';
     else if (numCols >= 6) colClass = 'grid-cols-6';
 
-    container.className = `grid ${colClass} gap-3 h-full w-full overflow-hidden`;
+    if (isWideScreen) {
+      container.className = `grid ${colClass} gap-3 h-full w-full overflow-hidden`;
+    } else {
+      container.className = `flex flex-row gap-3 h-full w-full overflow-x-auto overflow-y-hidden custom-horizontal-scrollbar pb-1`;
+    }
 
     let html = '';
 
@@ -585,13 +597,16 @@ class RakanaApp {
         : 'border-slate-800/80 bg-slate-900/60';
 
       // SUB-GRID LOGIC TO PREVENT VERTICAL CUTOFF:
-      // If a day has 4 or more schedules AND the column is wide (numCols <= 3),
-      // we layout cards in a 2-column subgrid so all 5 cards fit easily without any vertical cutoff!
-      const useSubGrid = dayObj.schedules.length >= 4 && numCols <= 3;
-      const stackClass = useSubGrid ? 'grid grid-cols-2 gap-2 h-full overflow-hidden' : 'flex flex-col gap-2 h-full overflow-hidden';
+      // Only split into 2 sub-columns if screen is very wide (>= 1440px) AND day has >= 4 schedules
+      const useSubGrid = isWideScreen && window.innerWidth >= 1440 && dayObj.schedules.length >= 4 && numCols <= 3;
+      const stackClass = useSubGrid 
+        ? 'grid grid-cols-2 gap-2 h-full overflow-hidden' 
+        : 'flex flex-col gap-2 h-full overflow-y-auto custom-scrollbar pr-0.5';
+
+      const colWidthClass = isWideScreen ? 'w-full' : 'min-w-[280px] w-[300px] shrink-0';
 
       html += `
-        <div class="flex flex-col h-full rounded-2xl border p-2.5 overflow-hidden transition-all duration-300 ${colBorderClass}">
+        <div class="flex flex-col h-full rounded-2xl border p-2.5 overflow-hidden transition-all duration-300 ${colWidthClass} ${colBorderClass}">
           
           <!-- Column Day Header -->
           <div class="p-2.5 rounded-xl border flex items-center justify-between mb-2 shrink-0 ${colHeaderClass}">

@@ -40,29 +40,29 @@
 
   <!-- TOP APP BAR / HEADER (Compact Height: ~56px) -->
   <header
-    class="h-14 shrink-0 bg-[#0B1120]/95 backdrop-blur-md border-b border-slate-800/80 px-4 flex items-center justify-between z-40">
+    class="h-14 shrink-0 bg-[#0B1120]/95 backdrop-blur-md border-b border-slate-800/80 px-4 flex items-center justify-between z-40 overflow-hidden">
 
     <!-- Logo & Company Branding -->
-    <div class="flex items-center space-x-3">
+    <div class="flex items-center space-x-3 shrink-0 min-w-0">
       <div
-        class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 p-0.5 shadow-md shadow-cyan-950/60 flex items-center justify-center">
+        class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 p-0.5 shadow-md shadow-cyan-950/60 flex items-center justify-center shrink-0">
         <div class="w-full h-full bg-[#0B1120] rounded-[10px] flex items-center justify-center">
           <i data-lucide="shield-check" class="w-5 h-5 text-cyan-400"></i>
         </div>
       </div>
 
-      <div>
+      <div class="min-w-0">
         <div class="flex items-center space-x-2">
-          <h1 id="header-pjk3-name" class="text-base md:text-lg font-black tracking-tight text-white uppercase">
+          <h1 id="header-pjk3-name" class="text-sm sm:text-base md:text-lg font-black tracking-tight text-white uppercase whitespace-nowrap truncate">
             PT. RAKANA MITRA RIKSA
           </h1>
           <span
-            class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
+            class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shrink-0">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1 beacon-dot"></span>
             LIVE
           </span>
         </div>
-        <div class="text-[11px] text-slate-400 -mt-0.5 flex items-center space-x-2">
+        <div class="text-[11px] text-slate-400 -mt-0.5 flex items-center space-x-2 whitespace-nowrap truncate">
           <span id="header-pjk3-sub">Layanan Riksa Uji K3 Kemnaker RI</span>
           <span>•</span>
           <span id="header-pjk3-reg" class="font-mono text-cyan-400/90">-</span>
@@ -129,7 +129,7 @@
 
   <!-- SLIDE CONTROLLER & AUTO-ROTATION BAR (Compact Height: ~36px) -->
   <section id="slide-controller-bar"
-    class="h-9 shrink-0 bg-[#0B1120]/80 border-b border-slate-800/80 px-4 flex items-center justify-between relative z-30">
+    class="h-9 shrink-0 bg-[#0B1120]/80 border-b border-slate-800/80 px-2 sm:px-4 flex items-center justify-between relative z-30 overflow-x-auto custom-horizontal-scrollbar">
 
     <!-- Top Countdown Progress Bar -->
     <div class="absolute top-0 left-0 right-0 h-[2px] bg-slate-800">
@@ -137,15 +137,15 @@
     </div>
 
     <!-- Slide Switcher Tabs -->
-    <div class="flex items-center space-x-1.5">
+    <div class="flex items-center space-x-1.5 shrink-0">
       <button id="btn-nav-slide-1"
-        class="slide-nav-pill px-3 py-1 rounded-lg text-[11px] font-black uppercase tracking-wider transition bg-cyan-500 text-slate-950 shadow flex items-center space-x-1.5">
+        class="slide-nav-pill px-2.5 sm:px-3 py-1 rounded-lg text-[10px] sm:text-[11px] font-black uppercase tracking-wider transition bg-cyan-500 text-slate-950 shadow flex items-center space-x-1 sm:space-x-1.5 whitespace-nowrap">
         <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
         <span>[1] Jadwal 1 Minggu (Senin – Sabtu)</span>
       </button>
 
       <button id="btn-nav-slide-2"
-        class="slide-nav-pill px-3 py-1 rounded-lg text-[11px] font-bold uppercase tracking-wider transition bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 flex items-center space-x-1.5">
+        class="slide-nav-pill px-2.5 sm:px-3 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold uppercase tracking-wider transition bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 flex items-center space-x-1 sm:space-x-1.5 whitespace-nowrap">
         <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-400"></i>
         <span>[2] Status Tanggungan Ahli K3</span>
       </button>
