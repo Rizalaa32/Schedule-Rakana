@@ -596,20 +596,19 @@ class RakanaApp {
         ? 'border-cyan-500/80 bg-slate-900/90 glow-cyan'
         : 'border-slate-800/80 bg-slate-900/60';
 
-      // SUB-GRID LOGIC TO PREVENT VERTICAL CUTOFF:
-      // Only split into 2 sub-columns if screen is very wide (>= 1440px) AND day has >= 4 schedules
-      const useSubGrid = isWideScreen && window.innerWidth >= 1440 && dayObj.schedules.length >= 4 && numCols <= 3;
-      const stackClass = useSubGrid 
-        ? 'grid grid-cols-2 gap-2 h-full overflow-hidden' 
-        : 'flex flex-col gap-2 h-full overflow-y-auto custom-scrollbar pr-0.5';
-
+      // DYNAMIC ADAPTIVE DENSITY:
+      // If a day has 4 or more schedules, use sleek compact card styling so ALL cards fit 100% without vertical scrollbar!
+      const count = dayObj.schedules.length;
+      const isDense = count >= 4;
+      
+      const stackClass = 'flex flex-col gap-1.5 h-full flex-1 min-h-0 overflow-hidden';
       const colWidthClass = isWideScreen ? 'w-full' : 'min-w-[280px] w-[300px] shrink-0';
 
       html += `
-        <div class="flex flex-col h-full rounded-2xl border p-2.5 overflow-hidden transition-all duration-300 ${colWidthClass} ${colBorderClass}">
+        <div class="flex flex-col h-full rounded-2xl border p-2 sm:p-2.5 overflow-hidden transition-all duration-300 ${colWidthClass} ${colBorderClass}">
           
           <!-- Column Day Header -->
-          <div class="p-2.5 rounded-xl border flex items-center justify-between mb-2 shrink-0 ${colHeaderClass}">
+          <div class="p-2 sm:p-2.5 rounded-xl border flex items-center justify-between mb-1.5 shrink-0 ${colHeaderClass}">
             <div class="flex items-center space-x-2">
               <span class="font-black text-sm md:text-base tracking-wider uppercase">${dayObj.dayName}</span>
               <span class="text-xs font-mono ${isToday ? 'text-slate-950 font-black' : 'text-cyan-400 font-bold'}">${dateFormatted}</span>
@@ -623,7 +622,7 @@ class RakanaApp {
             </div>
           </div>
 
-          <!-- Cards Stack (Zero Scroll, Fitted) -->
+          <!-- Cards Stack (100% Zero Scroll TV Mode, flex-1 min-h-0) -->
           <div class="${stackClass}">
       `;
 
@@ -642,61 +641,116 @@ class RakanaApp {
           statusDot = 'bg-slate-500';
         }
 
-        const cleanPhone = (sch.companyPicPhone || '').replace(/[^0-9]/g, '');
+        const rawPhone = (sch.companyPicPhone || '').trim();
+        const hasPhone = rawPhone && rawPhone !== '-' && rawPhone !== '0';
+        const cleanPhone = rawPhone.replace(/[^0-9]/g, '');
         const waPhone = cleanPhone.startsWith('0') ? '62' + cleanPhone.substring(1) : cleanPhone;
         const waMsg = encodeURIComponent(`Halo ${sch.companyPicName || 'Bpk/Ibu'}, kami dari ${RakanaDB.getSettings().pjk3Name} ingin konfirmasi riksa uji K3 (${sch.category}) untuk ${sch.companyName}.`);
         const waLink = cleanPhone ? `https://wa.me/${waPhone}?text=${waMsg}` : '#';
 
-        html += `
-          <div class="tv-card-enter rounded-xl bg-slate-950/90 hover:bg-slate-950 border border-slate-800/90 p-2.5 flex flex-col justify-between shadow-md transition ${cardPulse}">
-            
-            <div>
-              <!-- Category & Time -->
-              <div class="flex items-center justify-between gap-1 mb-1">
-                <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider ${catClass}">
-                  ${sch.category || 'K3'}
-                </span>
-                <div class="flex items-center space-x-1 text-[11px] font-mono font-bold text-cyan-400">
+        if (isDense) {
+          // --- COMPACT ADAPTIVE CARD (For days with 4, 5, or 6 schedules) ---
+          // Fits 100% inside 1 screen height with zero vertical scroll
+          html += `
+            <div class="tv-card-enter rounded-xl bg-slate-950/90 hover:bg-slate-950 border border-slate-800/90 p-1.5 sm:p-2 flex-1 min-h-0 flex flex-col justify-between shadow-sm transition overflow-hidden ${cardPulse}">
+              
+              <!-- Row 1: Category, Company & Time -->
+              <div class="flex items-center justify-between gap-1.5 shrink-0">
+                <div class="flex items-center space-x-1.5 min-w-0">
+                  <span class="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider ${catClass} shrink-0">
+                    ${sch.category || 'K3'}
+                  </span>
+                  <span class="font-black text-xs md:text-sm text-white truncate leading-tight" title="${sch.companyName}">
+                    ${sch.companyName}
+                  </span>
+                </div>
+                <div class="flex items-center space-x-1 text-[10px] sm:text-[11px] font-mono font-bold text-cyan-400 shrink-0">
                   <span class="w-1.5 h-1.5 rounded-full ${statusDot}"></span>
-                  <span>${sch.time || '08:30'} WIB</span>
+                  <span>${sch.time || '08:30'}</span>
                 </div>
               </div>
 
-              <!-- Company Name (Large, Bold, High Legibility) -->
-              <div class="font-black text-xs md:text-sm text-white line-clamp-1 leading-tight tracking-tight mt-0.5" title="${sch.companyName}">
-                ${sch.companyName}
-              </div>
-
-              <!-- Equipment -->
-              <div class="text-[11px] text-cyan-200/90 font-medium line-clamp-1 mt-0.5" title="${sch.equipmentName}">
-                🔧 ${sch.equipmentName || 'Riksa Uji K3'}
-              </div>
-
-              <!-- Ahli K3 in charge -->
-              <div class="text-[11px] text-slate-300 font-semibold line-clamp-1 mt-0.5" title="${sch.inspectorName}">
-                👷 ${sch.inspectorName}
-              </div>
-            </div>
-
-            <!-- PROMINENT PIC & PHONE BOX (EMERALD HIGH CONTRAST) -->
-            <div class="mt-2 p-1.5 rounded-lg bg-emerald-950/50 border border-emerald-500/40 text-emerald-200">
-              <div class="text-[10px] text-emerald-400 font-extrabold truncate leading-tight">
-                👤 ${sch.companyPicName || 'PIC Lapangan'}
-              </div>
-              <div class="flex items-center justify-between mt-0.5">
-                <span class="text-xs font-black font-mono text-emerald-300 tracking-wide">
-                  📞 ${sch.companyPicPhone || '-'}
+              <!-- Row 2: Equipment & Inspector -->
+              <div class="flex items-center justify-between text-[10px] sm:text-[11px] text-slate-300 gap-1 my-0.5 min-w-0">
+                <span class="text-cyan-200/90 font-medium truncate flex-1" title="${sch.equipmentName}">
+                  🔧 ${sch.equipmentName || 'Riksa Uji K3'}
                 </span>
+                <span class="text-slate-400 font-semibold truncate shrink-0 max-w-[45%]" title="${sch.inspectorName}">
+                  👷 ${sch.inspectorName}
+                </span>
+              </div>
+
+              <!-- Row 3: PIC & Contact Strip (Emerald) -->
+              <div class="p-1 px-1.5 rounded-lg bg-emerald-950/50 border border-emerald-500/40 text-emerald-200 flex items-center justify-between gap-1 text-[10px] shrink-0">
+                <div class="flex items-center space-x-1.5 truncate flex-1 min-w-0">
+                  <span class="text-emerald-400 font-bold truncate">👤 ${sch.companyPicName || 'PIC Lapangan'}</span>
+                  ${hasPhone ? `
+                    <span class="text-emerald-600">•</span>
+                    <span class="font-mono font-bold text-emerald-300 truncate tracking-wide">📞 ${sch.companyPicPhone}</span>
+                  ` : ''}
+                </div>
                 ${cleanPhone ? `
-                  <a href="${waLink}" target="_blank" class="px-2 py-0.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[10px] uppercase tracking-wider shadow transition" title="Chat WhatsApp">
+                  <a href="${waLink}" target="_blank" class="px-1.5 py-0.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[9px] uppercase tracking-wider shadow transition shrink-0" title="Chat WhatsApp">
                     WA
                   </a>
                 ` : ''}
               </div>
-            </div>
 
-          </div>
-        `;
+            </div>
+          `;
+        } else {
+          // --- SPACIOUS CARD (For days with 1, 2, or 3 schedules) ---
+          html += `
+            <div class="tv-card-enter rounded-xl bg-slate-950/90 hover:bg-slate-950 border border-slate-800/90 p-2.5 flex-1 min-h-0 flex flex-col justify-between shadow-md transition overflow-hidden ${cardPulse}">
+              
+              <div>
+                <!-- Category & Time -->
+                <div class="flex items-center justify-between gap-1 mb-1">
+                  <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider ${catClass}">
+                    ${sch.category || 'K3'}
+                  </span>
+                  <div class="flex items-center space-x-1 text-[11px] font-mono font-bold text-cyan-400">
+                    <span class="w-1.5 h-1.5 rounded-full ${statusDot}"></span>
+                    <span>${sch.time || '08:30'} WIB</span>
+                  </div>
+                </div>
+
+                <!-- Company Name (Large, Bold, High Legibility) -->
+                <div class="font-black text-xs md:text-sm text-white line-clamp-1 leading-tight tracking-tight mt-0.5" title="${sch.companyName}">
+                  ${sch.companyName}
+                </div>
+
+                <!-- Equipment -->
+                <div class="text-[11px] text-cyan-200/90 font-medium line-clamp-1 mt-0.5" title="${sch.equipmentName}">
+                  🔧 ${sch.equipmentName || 'Riksa Uji K3'}
+                </div>
+
+                <!-- Ahli K3 in charge -->
+                <div class="text-[11px] text-slate-300 font-semibold line-clamp-1 mt-0.5" title="${sch.inspectorName}">
+                  👷 ${sch.inspectorName}
+                </div>
+              </div>
+
+              <!-- PROMINENT PIC & PHONE BOX (EMERALD HIGH CONTRAST) -->
+              <div class="mt-1.5 p-1.5 rounded-lg bg-emerald-950/50 border border-emerald-500/40 text-emerald-200 shrink-0">
+                <div class="text-[10px] text-emerald-400 font-extrabold truncate leading-tight">
+                  👤 ${sch.companyPicName || 'PIC Lapangan'}
+                </div>
+                <div class="flex items-center justify-between mt-0.5">
+                  <span class="text-xs font-black font-mono text-emerald-300 tracking-wide">
+                    📞 ${sch.companyPicPhone || '-'}
+                  </span>
+                  ${cleanPhone ? `
+                    <a href="${waLink}" target="_blank" class="px-2 py-0.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[10px] uppercase tracking-wider shadow transition" title="Chat WhatsApp">
+                      WA
+                    </a>
+                  ` : ''}
+                </div>
+              </div>
+
+            </div>
+          `;
+        }
       });
 
       html += `
