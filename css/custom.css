@@ -1,0 +1,299 @@
+/* Custom Styling for Rakana PJK3 TV Dashboard - Zero Scroll TV Screen */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap');
+
+:root {
+  --bg-primary: #070B14;
+  --bg-surface: #0F172A;
+  --bg-card: #141E33;
+  --border-card: #1E293B;
+  --text-main: #F8FAFC;
+  --text-muted: #94A3B8;
+  --brand-cyan: #06B6D4;
+  --brand-amber: #F59E0B;
+  --brand-emerald: #10B981;
+  --brand-rose: #EF4444;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Static TV Display: No window scrolling */
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  user-select: none;
+}
+
+.font-mono-clock {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Slide Progress Bar Animation */
+.slide-progress-bar {
+  height: 3px;
+  background: linear-gradient(90deg, #06B6D4, #10B981);
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* TV Slide Transitions */
+.slide-view {
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  height: 100%;
+}
+
+.slide-view.hidden {
+  display: none !important;
+  opacity: 0;
+  transform: scale(0.99);
+}
+
+.slide-view:not(.hidden) {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* TV High-Contrast Glow Effects */
+.glow-cyan {
+  box-shadow: 0 0 25px -4px rgba(6, 182, 212, 0.45);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 25px -4px rgba(16, 185, 129, 0.45);
+}
+
+.glow-amber {
+  box-shadow: 0 0 25px -4px rgba(245, 158, 11, 0.4);
+}
+
+.glow-rose {
+  box-shadow: 0 0 30px -4px rgba(239, 68, 68, 0.55);
+}
+
+.border-glow-active {
+  border-color: rgba(16, 185, 129, 0.7);
+  animation: pulse-border 2.5s infinite;
+}
+
+@keyframes pulse-border {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4), inset 0 0 10px rgba(16, 185, 129, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 15px 2px rgba(16, 185, 129, 0.25), inset 0 0 15px rgba(16, 185, 129, 0.15);
+  }
+}
+
+/* Running Marquee Ticker */
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-content {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee-scroll 35s linear infinite;
+}
+
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Custom Scrollbars for Modals & Horizontal Sliders */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #070B14;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1E293B;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0284C7;
+}
+
+/* Highly visible horizontal slider for data tables */
+.custom-horizontal-scrollbar {
+  overflow-x: auto !important;
+  scrollbar-width: thin;
+  scrollbar-color: #06B6D4 #0F172A;
+}
+
+.custom-horizontal-scrollbar::-webkit-scrollbar {
+  height: 9px !important;
+}
+
+.custom-horizontal-scrollbar::-webkit-scrollbar-track {
+  background: #090E17 !important;
+  border-radius: 6px;
+  border: 1px solid #1E293B;
+}
+
+.custom-horizontal-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #0284C7, #06B6D4) !important;
+  border-radius: 6px;
+}
+
+.custom-horizontal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #38BDF8 !important;
+}
+
+/* Light Theme Variables */
+body.light-theme {
+  --bg-primary: #F1F5F9;
+  --bg-surface: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --border-card: #CBD5E1;
+  --text-main: #0F172A;
+  --text-muted: #475569;
+}
+
+body.light-theme .bg-slate-900\/80,
+body.light-theme .bg-slate-900\/90,
+body.light-theme .bg-slate-900\/85,
+body.light-theme .bg-slate-900\/70,
+body.light-theme .bg-slate-900\/60,
+body.light-theme .bg-slate-900 {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+}
+
+body.light-theme .bg-slate-950\/80,
+body.light-theme .bg-slate-950\/70,
+body.light-theme .bg-slate-950\/60,
+body.light-theme .bg-slate-950 {
+  background-color: #F8FAFC !important;
+  color: #0F172A !important;
+}
+
+body.light-theme .bg-slate-800\/80,
+body.light-theme .bg-slate-800\/60,
+body.light-theme .bg-slate-800\/50,
+body.light-theme .bg-slate-800 {
+  background-color: #F1F5F9 !important;
+  color: #0F172A !important;
+}
+
+body.light-theme .border-slate-800,
+body.light-theme .border-slate-800\/80,
+body.light-theme .border-slate-800\/90,
+body.light-theme .border-slate-700 {
+  border-color: #CBD5E1 !important;
+}
+
+body.light-theme .text-slate-400,
+body.light-theme .text-slate-300 {
+  color: #475569 !important;
+}
+
+/* TV Mode Animations */
+.tv-card-enter {
+  animation: fadeSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Pulse beacon */
+.beacon-dot {
+  position: relative;
+}
+
+.beacon-dot::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 9999px;
+  background-color: inherit;
+  animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* Badge styles */
+.badge-pubt {
+  background: rgba(245, 158, 11, 0.2);
+  color: #FBBF24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.badge-paa {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60A5FA;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+.badge-listrik {
+  background: rgba(234, 179, 8, 0.2);
+  color: #FACC15;
+  border: 1px solid rgba(234, 179, 8, 0.4);
+}
+
+.badge-damkar {
+  background: rgba(239, 68, 68, 0.2);
+  color: #F87171;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.badge-elevator {
+  background: rgba(168, 85, 247, 0.2);
+  color: #C084FC;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+}
+
+.badge-ptp {
+  background: rgba(6, 182, 212, 0.2);
+  color: #22D3EE;
+  border: 1px solid rgba(6, 182, 212, 0.4);
+}
+
+.badge-lingkungan {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+/* Print Styles */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    overflow: auto !important;
+  }
+  .no-print, header, footer, #admin-modal, #wa-modal, .marquee-container, #slide-controller-bar {
+    display: none !important;
+  }
+}
