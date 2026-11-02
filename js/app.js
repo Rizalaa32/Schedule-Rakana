@@ -717,7 +717,9 @@ class RakanaApp {
         ? 'border-cyan-500/80 bg-slate-900/90 glow-cyan'
         : 'border-slate-800/80 bg-slate-900/60';
 
-      const stackClass = 'flex flex-col gap-2 h-full flex-1 min-h-0 overflow-hidden';
+      const isMultiCompany = companyGroups.length >= 3;
+      const stackGap = isMultiCompany ? 'gap-1.5' : 'gap-2';
+      const stackClass = `flex flex-col ${stackGap} h-full flex-1 min-h-0 overflow-hidden`;
       const colWidthClass = isWideScreen ? 'w-full' : 'min-w-[280px] w-[300px] shrink-0';
 
       html += `
@@ -762,21 +764,21 @@ class RakanaApp {
         const waMsg = encodeURIComponent(`Halo ${grp.companyPicName || 'Bpk/Ibu'}, kami dari ${RakanaDB.getSettings().pjk3Name} ingin konfirmasi agenda riksa uji K3 untuk ${grp.companyName}.`);
         const waLink = cleanPhone ? `https://wa.me/${waPhone}?text=${waMsg}` : '#';
 
-        const isMultiCompany = companyGroups.length >= 3;
-        const cardPadClass = isMultiCompany ? 'p-2 sm:p-2.5' : 'p-2.5 sm:p-3';
-        const innerMargin = isMultiCompany ? 'my-1' : 'my-1.5';
+        const cardPadClass = isMultiCompany ? 'p-1.5 sm:p-2' : 'p-2.5 sm:p-3';
+        const innerMargin = isMultiCompany ? 'my-0.5' : 'my-1.5';
 
         html += `
           <div class="tv-card-enter rounded-xl bg-slate-950/90 hover:bg-slate-950 border border-slate-800/90 ${cardPadClass} flex-1 min-h-0 flex flex-col justify-between shadow-md transition ${cardPulse}">
             
-            <div class="flex-1 min-h-0 flex flex-col justify-between">
+            <!-- Top Content: Nama PT, Alamat & Badges Alat -->
+            <div class="min-w-0 flex flex-col">
               <!-- Top Row: Nama Perusahaan & Jam Kunjungan -->
               <div class="flex items-start justify-between gap-1.5 pb-1 border-b border-slate-800/80 shrink-0">
                 <div class="min-w-0 flex-1">
                   <div class="font-black text-xs sm:text-sm md:text-base text-white tracking-tight line-clamp-1 leading-tight" title="${grp.companyName}">
                     ${grp.companyName}
                   </div>
-                  ${grp.address ? `<div class="text-[10px] text-slate-400 truncate leading-tight" title="${grp.address}">📍 ${grp.address}</div>` : ''}
+                  ${grp.address ? `<div class="text-[10px] text-slate-400 truncate leading-tight mt-0.5" title="${grp.address}">📍 ${grp.address}</div>` : ''}
                 </div>
 
                 <div class="flex items-center space-x-1 shrink-0 px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-[10px] sm:text-[11px] font-mono font-bold text-cyan-400">
@@ -810,28 +812,31 @@ class RakanaApp {
                   </span>
                 `}
               </div>
+            </div>
 
+            <!-- Bottom Content: Ahli K3 & PIC Lapangan (Satu Flow Vertikal Bersama, Tanpa Tumpang Tindih) -->
+            <div class="mt-auto pt-1 flex flex-col gap-1 shrink-0">
               <!-- Ahli K3 Penanggung Jawab -->
-              <div class="text-[10px] sm:text-[11px] text-slate-300 font-semibold truncate flex items-center space-x-1.5 shrink-0 pt-0.5">
+              <div class="text-[10px] sm:text-[11px] text-slate-300 font-semibold truncate flex items-center space-x-1.5">
                 <span class="text-amber-400">👷</span>
                 <span class="text-slate-200 font-bold truncate">Ahli K3: ${grp.inspectors.join(' • ') || 'Tim Ahli K3 Rakana'}</span>
               </div>
-            </div>
 
-            <!-- Footer: PIC & Telepon Lapangan (Emerald High-Contrast Box) -->
-            <div class="mt-1.5 p-1 px-1.5 rounded-lg bg-emerald-950/60 border border-emerald-500/40 text-emerald-200 flex items-center justify-between text-xs shrink-0">
-              <div class="flex items-center space-x-1.5 truncate flex-1 min-w-0">
-                <span class="text-emerald-400 font-extrabold truncate text-[10px] sm:text-xs">👤 ${grp.companyPicName || 'PIC Lapangan'}</span>
-                ${hasPhone ? `
-                  <span class="text-emerald-600">•</span>
-                  <span class="font-mono font-black text-emerald-300 tracking-wide truncate text-[10px] sm:text-xs">📞 ${grp.companyPicPhone}</span>
+              <!-- Footer: PIC & Telepon Lapangan (Emerald High-Contrast Box) -->
+              <div class="p-1 px-1.5 rounded-lg bg-emerald-950/60 border border-emerald-500/40 text-emerald-200 flex items-center justify-between text-xs">
+                <div class="flex items-center space-x-1.5 truncate flex-1 min-w-0">
+                  <span class="text-emerald-400 font-extrabold truncate text-[10px] sm:text-xs">👤 ${grp.companyPicName || 'PIC Lapangan'}</span>
+                  ${hasPhone ? `
+                    <span class="text-emerald-600">•</span>
+                    <span class="font-mono font-black text-emerald-300 tracking-wide truncate text-[10px] sm:text-xs">📞 ${grp.companyPicPhone}</span>
+                  ` : ''}
+                </div>
+                ${cleanPhone ? `
+                  <a href="${waLink}" target="_blank" class="px-2 py-0.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[9px] sm:text-[10px] uppercase tracking-wider shadow transition shrink-0 ml-1.5" title="Chat WhatsApp">
+                    WA
+                  </a>
                 ` : ''}
               </div>
-              ${cleanPhone ? `
-                <a href="${waLink}" target="_blank" class="px-2 py-0.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[9px] sm:text-[10px] uppercase tracking-wider shadow transition shrink-0 ml-1.5" title="Chat WhatsApp">
-                  WA
-                </a>
-              ` : ''}
             </div>
 
           </div>
