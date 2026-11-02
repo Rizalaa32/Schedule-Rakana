@@ -506,11 +506,13 @@ class RakanaApp {
 
       const grp = map.get(key);
 
-      // Collect equipment
-      if (sch.equipmentName) {
+      // Collect equipment (always collect even if equipmentName is empty, use category as fallback)
+      const eqName = (sch.equipmentName || '').trim();
+      const cat = (sch.category || '').trim();
+      if (eqName || cat) {
         grp.equipments.push({
-          category: sch.category || 'K3',
-          name: sch.equipmentName,
+          category: cat || 'K3',
+          name: eqName || `${cat || 'Objek'} Riksa Uji`,
           type: sch.inspectionType || ''
         });
       }
@@ -736,60 +738,73 @@ class RakanaApp {
         const waMsg = encodeURIComponent(`Halo ${grp.companyPicName || 'Bpk/Ibu'}, kami dari ${RakanaDB.getSettings().pjk3Name} ingin konfirmasi agenda riksa uji K3 untuk ${grp.companyName}.`);
         const waLink = cleanPhone ? `https://wa.me/${waPhone}?text=${waMsg}` : '#';
 
+        const isMultiCompany = companyGroups.length >= 3;
+        const cardPadClass = isMultiCompany ? 'p-2 sm:p-2.5' : 'p-2.5 sm:p-3';
+        const innerMargin = isMultiCompany ? 'my-1' : 'my-1.5';
+
         html += `
-          <div class="tv-card-enter rounded-xl bg-slate-950/90 hover:bg-slate-950 border border-slate-800/90 p-2.5 sm:p-3 flex-1 min-h-0 flex flex-col justify-between shadow-md transition overflow-hidden ${cardPulse}">
+          <div class="tv-card-enter rounded-xl bg-slate-950/90 hover:bg-slate-950 border border-slate-800/90 ${cardPadClass} flex-1 min-h-0 flex flex-col justify-between shadow-md transition ${cardPulse}">
             
-            <div class="min-h-0 flex flex-col overflow-hidden">
+            <div class="flex-1 min-h-0 flex flex-col justify-between">
               <!-- Top Row: Nama Perusahaan & Jam Kunjungan -->
-              <div class="flex items-start justify-between gap-1.5 pb-1.5 border-b border-slate-800/80 shrink-0">
+              <div class="flex items-start justify-between gap-1.5 pb-1 border-b border-slate-800/80 shrink-0">
                 <div class="min-w-0 flex-1">
                   <div class="font-black text-xs sm:text-sm md:text-base text-white tracking-tight line-clamp-1 leading-tight" title="${grp.companyName}">
                     ${grp.companyName}
                   </div>
-                  ${grp.address ? `<div class="text-[10px] text-slate-400 truncate mt-0.5" title="${grp.address}">📍 ${grp.address}</div>` : ''}
+                  ${grp.address ? `<div class="text-[10px] text-slate-400 truncate leading-tight" title="${grp.address}">📍 ${grp.address}</div>` : ''}
                 </div>
 
-                <div class="flex items-center space-x-1 shrink-0 px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-[11px] font-mono font-bold text-cyan-400">
+                <div class="flex items-center space-x-1 shrink-0 px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-[10px] sm:text-[11px] font-mono font-bold text-cyan-400">
                   <span class="w-1.5 h-1.5 rounded-full ${statusDot}"></span>
                   <span>${grp.time || '08:30'} WIB</span>
                 </div>
               </div>
 
-              <!-- Objek Riksa (Format Memanjang Inline, Tanpa Scroll) -->
-              <div class="my-2 flex flex-wrap items-center gap-1.5 shrink-0">
-                ${grp.equipments.map(eq => {
+              <!-- Objek Riksa (Format Memanjang Inline, Selalu Tampil Lengkap) -->
+              <div class="${innerMargin} flex flex-wrap items-center gap-1.5 shrink-0">
+                ${grp.equipments.length > 0 ? grp.equipments.map(eq => {
                   const catClass = `badge-${eq.category ? eq.category.toLowerCase() : 'pubt'}`;
                   return `
-                    <span class="inline-flex items-center space-x-1.5 px-2 py-0.5 rounded-lg bg-slate-900/90 border border-slate-800/80 shadow-sm text-xs">
-                      <span class="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider ${catClass} shrink-0">
-                        ${eq.category}
+                    <span class="inline-flex items-center space-x-1 px-1.5 py-0.5 rounded-md bg-slate-900/90 border border-slate-800/80 shadow-sm text-xs">
+                      <span class="px-1 py-0.2 rounded text-[9px] font-black uppercase tracking-wider ${catClass} shrink-0">
+                        ${eq.category || 'K3'}
                       </span>
                       <span class="font-bold text-cyan-200 text-xs">
                         🔧 ${eq.name}
                       </span>
                     </span>
                   `;
-                }).join('')}
+                }).join('') : `
+                  <span class="inline-flex items-center space-x-1 px-1.5 py-0.5 rounded-md bg-slate-900/90 border border-slate-800/80 shadow-sm text-xs">
+                    <span class="px-1 py-0.2 rounded text-[9px] font-black uppercase tracking-wider badge-pubt shrink-0">
+                      K3
+                    </span>
+                    <span class="font-bold text-cyan-200 text-xs">
+                      🔧 Objek Riksa Uji K3
+                    </span>
+                  </span>
+                `}
               </div>
 
               <!-- Ahli K3 Penanggung Jawab -->
-              <div class="text-[11px] sm:text-xs text-slate-300 font-semibold truncate flex items-center space-x-1.5 shrink-0 pt-0.5">
+              <div class="text-[10px] sm:text-[11px] text-slate-300 font-semibold truncate flex items-center space-x-1.5 shrink-0 pt-0.5">
                 <span class="text-amber-400">👷</span>
                 <span class="text-slate-200 font-bold truncate">Ahli K3: ${grp.inspectors.join(' • ') || 'Tim Ahli K3 Rakana'}</span>
               </div>
             </div>
 
             <!-- Footer: PIC & Telepon Lapangan (Emerald High-Contrast Box) -->
-            <div class="mt-2 p-1.5 px-2 rounded-lg bg-emerald-950/60 border border-emerald-500/40 text-emerald-200 flex items-center justify-between text-xs shrink-0">
+            <div class="mt-1.5 p-1 px-1.5 rounded-lg bg-emerald-950/60 border border-emerald-500/40 text-emerald-200 flex items-center justify-between text-xs shrink-0">
               <div class="flex items-center space-x-1.5 truncate flex-1 min-w-0">
-                <span class="text-emerald-400 font-extrabold truncate">👤 ${grp.companyPicName || 'PIC Lapangan'}</span>
+                <span class="text-emerald-400 font-extrabold truncate text-[10px] sm:text-xs">👤 ${grp.companyPicName || 'PIC Lapangan'}</span>
                 ${hasPhone ? `
                   <span class="text-emerald-600">•</span>
-                  <span class="font-mono font-black text-emerald-300 tracking-wide truncate">📞 ${grp.companyPicPhone}</span>
+                  <span class="font-mono font-black text-emerald-300 tracking-wide truncate text-[10px] sm:text-xs">📞 ${grp.companyPicPhone}</span>
                 ` : ''}
               </div>
               ${cleanPhone ? `
-                <a href="${waLink}" target="_blank" class="px-2 py-0.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[10px] uppercase tracking-wider shadow transition shrink-0 ml-1.5" title="Chat WhatsApp">
+                <a href="${waLink}" target="_blank" class="px-2 py-0.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[9px] sm:text-[10px] uppercase tracking-wider shadow transition shrink-0 ml-1.5" title="Chat WhatsApp">
                   WA
                 </a>
               ` : ''}
