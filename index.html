@@ -577,7 +577,7 @@
 
                 <div class="md:col-span-2">
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">Nama Perusahaan / Klien *</label>
-                  <input type="text" id="sch-company" placeholder="Contoh: PT. Indofood CBP Sukses Makmur Tbk"
+                  <input type="text" id="sch-company" placeholder="Contoh: PT. Sadhana"
                     class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500"
                     required>
                 </div>
@@ -595,7 +595,7 @@
                 <div class="md:col-span-3">
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">Alat / Objek Uji K3</label>
                   <input type="text" id="sch-equipment"
-                    placeholder="Contoh: Boiler Takuma 15 Ton (1 Unit) & Bejana Tekan (3 Unit)"
+                    placeholder="Contoh: Forklift (2 Unit) & Screw Compressor"
                     class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500">
                 </div>
 
@@ -876,15 +876,20 @@
             <!-- Backup & Restore Database Section -->
             <div class="p-4 rounded-2xl bg-slate-950/60 border border-slate-800">
               <h4 class="text-xs font-black text-emerald-400 uppercase tracking-wider mb-2">
-                Pencadangan & Pemulihan Data (Offline Database)
+                Pencadangan & Sinkronisasi Antar Perangkat
               </h4>
               <p class="text-xs text-slate-400 mb-3">
-                Seluruh data tersimpan secara aman di <code>localStorage</code> browser ini. Anda dapat mengunduh backup
-                JSON kapan saja untuk dipindahkan ke komputer atau TV lain.
+                Gunakan <b>Salin Tautan Sinkronisasi</b> untuk langsung menduplikasi jadwal ke email, browser, atau TV kantor secara instan, atau gunakan file backup JSON.
               </p>
 
               <div class="flex flex-wrap items-center gap-2.5">
-                <button id="btn-export-backup"
+                <button type="button" id="btn-share-sync"
+                  class="px-3.5 py-2 rounded-xl bg-cyan-700 hover:bg-cyan-600 text-white font-bold text-xs flex items-center space-x-1.5 border border-cyan-500/50 shadow-md transition">
+                  <i data-lucide="share-2" class="w-4 h-4 text-cyan-300"></i>
+                  <span>Salin Tautan Sinkronisasi Antar Perangkat</span>
+                </button>
+
+                <button type="button" id="btn-export-backup"
                   class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center space-x-1.5 transition">
                   <i data-lucide="download-cloud" class="w-4 h-4"></i>
                   <span>Unduh File Backup JSON</span>
@@ -897,10 +902,10 @@
                   <input type="file" id="input-import-backup" accept=".json" class="hidden">
                 </label>
 
-                <button id="btn-reset-demo"
+                <button type="button" id="btn-reset-demo"
                   class="px-3.5 py-2 rounded-xl bg-rose-950/60 hover:bg-rose-900 text-rose-300 font-bold text-xs flex items-center space-x-1.5 border border-rose-800/60 transition ml-auto">
                   <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
-                  <span>Reset ke Data Demo</span>
+                  <span>Reset ke Data Standar Rakana</span>
                 </button>
               </div>
             </div>

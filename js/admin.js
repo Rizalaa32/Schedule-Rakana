@@ -99,15 +99,21 @@ class AdminManager {
       importInput.addEventListener('change', (e) => this.importBackup(e));
     }
 
+    // Share / Copy Sync Link for Cross-Device Sync
+    const syncBtn = document.getElementById('btn-share-sync');
+    if (syncBtn) {
+      syncBtn.addEventListener('click', () => this.exportSyncUrl());
+    }
+
     // Reset Demo Data
     const resetBtn = document.getElementById('btn-reset-demo');
     if (resetBtn) {
       resetBtn.addEventListener('click', () => {
-        if (confirm('Yakin ingin mereset seluruh data kembali ke data contoh (demo data)? Semua perubahan manual akan digantikan.')) {
+        if (confirm('Yakin ingin mereset seluruh data kembali ke jadwal bawaan PT. Rakana Mitra Riksa?')) {
           RakanaDB.resetToDemoData();
           if (window.App) {
             window.App.refreshAll();
-            window.App.showToast('Data berhasil direset ke mode demo!', 'success');
+            window.App.showToast('Data berhasil direset ke jadwal standar Rakana!', 'success');
           }
           this.renderAllAdminData();
         }
@@ -780,6 +786,23 @@ class AdminManager {
       }
     };
     reader.readAsText(file);
+  }
+
+  exportSyncUrl() {
+    const data = RakanaDB.exportFullBackup();
+    const jsonStr = JSON.stringify(data);
+    const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+    const syncUrl = `${window.location.origin}${window.location.pathname}#sync=${encoded}`;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(syncUrl).then(() => {
+        if (window.App) window.App.showToast('✅ Tautan sinkronisasi disalin! Buka link ini di browser/email/perangkat lain untuk menyamakan data 100%.', 'success');
+      }).catch(() => {
+        prompt('Salin tautan sinkronisasi berikut dan buka di perangkat/email lain:', syncUrl);
+      });
+    } else {
+      prompt('Salin tautan sinkronisasi berikut dan buka di perangkat/email lain:', syncUrl);
+    }
   }
 }
 

@@ -19,9 +19,13 @@ class RakanaApp {
   }
 
   init() {
+    // Check if incoming URL has a database sync payload
+    this.checkUrlSync();
+
     // Ensure storage migration runs on init
     RakanaDB.getSettings();
     RakanaDB.getInspectors();
+    RakanaDB.getSchedules();
 
     this.initTheme();
     this.initClock();
@@ -34,6 +38,26 @@ class RakanaApp {
     setInterval(() => {
       this.checkDayChange();
     }, 60000);
+  }
+
+  checkUrlSync() {
+    try {
+      const hash = window.location.hash;
+      if (hash && hash.startsWith('#sync=')) {
+        const raw = hash.substring(6);
+        const jsonStr = decodeURIComponent(escape(atob(raw)));
+        const backup = JSON.parse(jsonStr);
+        if (backup && (backup.schedules || backup.inspectors)) {
+          RakanaDB.importFullBackup(backup);
+          window.history.replaceState(null, '', window.location.pathname);
+          setTimeout(() => {
+            this.showToast('✅ Data jadwal berhasil disinkronkan dari tautan!', 'success');
+          }, 600);
+        }
+      }
+    } catch (e) {
+      console.warn('URL sync check error:', e);
+    }
   }
 
   initTheme() {
