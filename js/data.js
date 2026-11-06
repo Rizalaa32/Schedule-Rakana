@@ -93,7 +93,7 @@ const DEFAULT_SETTINGS = {
   soundEnabled: true,
   theme: 'dark',
   runningText: '⛑️ UTAMAKAN KESELAMATAN & KESEHATAN KERJA • ZERO ACCIDENT IS OUR PRIORITY • PASTIKAN SELURUH OBJEK RIKSA MEMILIKI SUKET/SLO RESMI • LAPORAN TEPAT WAKTU, AUDIT KLIEN AMAN!',
-  version: 4
+  version: 5
 };
 
 const DEFAULT_INSPECTORS = [
@@ -151,167 +151,114 @@ const DEFAULT_INSPECTORS = [
     oldestPendingDays: 0,
     completedThisMonth: 11,
     avatar: 'HG'
+  },
+  {
+    id: 'ins-6',
+    name: 'MOH. HUDA',
+    title: 'Ahli K3 Spesialis Instalasi Listrik & Penanggulangan Kebakaran',
+    badgeNo: 'SKP.512/NAKER/2024',
+    phone: '0812-3456-7890',
+    pendingReports: 0,
+    oldestPendingDays: 0,
+    completedThisMonth: 8,
+    avatar: 'MH'
   }
 ];
 
 function generateDefaultSchedules() {
   const week = getActiveWorkWeekDates();
-  const monday = week[0];
-  const tuesday = week[1];
-  const wednesday = week[2];
-  const thursday = week[3];
-  const friday = week[4];
-  const saturday = week[5];
+  const monday = week[0];   // 2026-11-09
+  const tuesday = week[1];  // 2026-11-10
+  const wednesday = week[2];// 2026-11-11
+  const thursday = week[3]; // 2026-11-12
+  const friday = week[4];   // 2026-11-13
+  const saturday = week[5]; // 2026-11-14
 
   return [
-    // SENIN
+    // SENIN 09 Nov (3 PT)
     {
-      id: 'sch-senin-1',
+      id: 'sch-ati-gempol',
       date: monday,
       time: '08:30',
-      companyName: 'PT. Sadhana',
-      address: 'Jl. Raya Surabaya-Malang, Km 59 (Raya Purwosari), Kabupaten Pasuruan',
-      category: 'PAA',
-      equipmentName: 'Forklift (? Unit)',
-      inspectionType: 'Riksa Uji Berkala',
-      inspectorId: 'ins-1',
-      inspectorName: 'Ubaid Choiri Ramadhan',
-      companyPicName: 'Made',
-      companyPicPhone: '085877663421',
-      status: 'Sedang Riksa Uji',
-      notes: 'Riksa uji unit forklift di pabrik Purwosari.'
-    },
-    {
-      id: 'sch-senin-2',
-      date: monday,
-      time: '13:00',
-      companyName: 'PT. Delta Surya Textille',
-      address: 'Jl. Lingkar AMD Ds Purwodadi, PO Box 7, Purwodadi, Kab. Pasuruan',
-      category: 'PTP',
-      equipmentName: 'Screw Compressor',
-      inspectionType: 'Riksa Uji Berkala',
-      inspectorId: 'ins-2',
-      inspectorName: 'Daru Catur Wicaksono, A. Md',
-      companyPicName: 'Sri',
-      companyPicPhone: '-',
-      status: 'Terjadwal',
-      notes: 'Riksa uji kompresor screw.'
-    },
-    {
-      id: 'sch-senin-3',
-      date: monday,
-      time: '13:00',
-      companyName: 'PT. Delta Surya Textille',
-      address: 'Jl. Lingkar AMD Ds Purwodadi, PO Box 7, Purwodadi, Kab. Pasuruan',
-      category: 'PUBT',
-      equipmentName: 'Air Receiver Tank',
-      inspectionType: 'Riksa Uji Berkala',
-      inspectorId: 'ins-1',
-      inspectorName: 'Ubaid Choiri Ramadhan',
-      companyPicName: 'Sri',
-      companyPicPhone: '-',
-      status: 'Terjadwal',
-      notes: 'Riksa uji bejana tekan tangki udara.'
-    },
-    {
-      id: 'sch-senin-4',
-      date: monday,
-      time: '13:00',
-      companyName: 'PT. Delta Surya Textille',
-      address: 'Jl. Lingkar AMD Ds Purwodadi, PO Box 7, Purwodadi, Kab. Pasuruan',
-      category: 'PAA',
-      equipmentName: 'Forklift (2)',
-      inspectionType: 'Riksa Uji Berkala',
-      inspectorId: 'ins-1',
-      inspectorName: 'Ubaid Choiri Ramadhan',
-      companyPicName: 'Sri',
-      companyPicPhone: '-',
-      status: 'Terjadwal',
-      notes: 'Riksa uji 2 unit forklift.'
-    },
-    {
-      id: 'sch-senin-5',
-      date: monday,
-      time: '13:00',
-      companyName: 'PT. Delta Surya Textille',
-      address: 'Jl. Lingkar AMD Ds Purwodadi, PO Box 7, Purwodadi, Kab. Pasuruan',
+      companyName: 'PT. ATI GEMPOL',
+      address: '-',
       category: 'LISTRIK',
-      equipmentName: 'Pemanfaatan Listrik',
+      equipmentName: 'LISTRIK , PETIR, KOMPRESSOR',
       inspectionType: 'Riksa Uji Berkala',
-      inspectorId: 'ins-2',
-      inspectorName: 'Daru Catur Wicaksono, A. Md',
-      companyPicName: 'Sri',
+      inspectorId: 'ins-6',
+      inspectorName: 'MOH. HUDA',
+      companyPicName: 'BU TITIN',
       companyPicPhone: '-',
       status: 'Terjadwal',
-      notes: 'Riksa instalasi pemanfaatan tenaga listrik.'
+      notes: 'Riksa uji instalasi listrik, petir, dan kompressor.'
+    },
+    {
+      id: 'sch-basecamp-padel',
+      date: monday,
+      time: '13:30',
+      companyName: 'CV BASECAMP PADEL',
+      address: '9MQP+JGH, Damean, Kepulungan, Kec. Gempol, Pasuruan, Jawa Timur',
+      category: 'DAMKAR',
+      equipmentName: 'APAR',
+      inspectionType: 'Riksa Uji Berkala',
+      inspectorId: 'ins-6',
+      inspectorName: 'MOH. HUDA',
+      companyPicName: 'BU RISMA',
+      companyPicPhone: '+62 878-8545-6085',
+      status: 'Terjadwal',
+      notes: 'Riksa uji proteksi kebakaran APAR.'
+    },
+    {
+      id: 'sch-niramas-senin',
+      date: monday,
+      time: '14:30',
+      companyName: 'PT. NIRAMAS',
+      address: '-',
+      category: 'DAMKAR',
+      equipmentName: 'HYDRANT',
+      inspectionType: 'Riksa Uji Berkala',
+      inspectorId: 'ins-6',
+      inspectorName: 'MOH. HUDA',
+      companyPicName: 'PAK SOFYAN',
+      companyPicPhone: '-',
+      status: 'Terjadwal',
+      notes: 'Riksa uji instalasi hydrant pabrik.'
     },
 
-    // RABU
+    // SELASA 10 Nov (1 PT)
     {
-      id: 'sch-rabu-1',
-      date: wednesday,
-      time: '08:30',
-      companyName: 'PT. Iseki Indonesia',
-      address: 'Jalan Kraton Industri Raya No. 11 - 11A, Kawasan Industri PIER, Pasuruan',
+      id: 'sch-malidas-sterilindo',
+      date: tuesday,
+      time: '09:00',
+      companyName: 'PT. MALIDAS STERILINDO (BELUM FIKS)',
+      address: 'Jl. Kidemang Singomenggolo No. 22, Sidomulyo, Kec. Buduran, Sidoarjo',
       category: 'PAA',
-      equipmentName: 'OHTC (6), E. Towing, Reach Stacker (2), Hand Pallet (2), Chain Hoist',
+      equipmentName: 'PETIR (6), GENSET, LISTRIK, HOIST, LIFT BARANG, FORKLIFT (2), REACH TRUCK',
       inspectionType: 'Riksa Uji Berkala',
       inspectorId: 'ins-1',
       inspectorName: 'Ubaid Choiri Ramadhan',
-      companyPicName: 'Yuli',
-      companyPicPhone: '-',
+      companyPicName: 'IBU NADIA',
+      companyPicPhone: '+62 813-3514-5475',
       status: 'Terjadwal',
-      notes: 'Riksa uji rangkaian pesawat angkat dan angkut.'
+      notes: 'Jadwal belum fiks - konfirmasi ulang dengan Ibu Nadia.'
     },
 
-    // KAMIS
+    // KAMIS 12 Nov (1 PT)
     {
-      id: 'sch-kamis-1',
+      id: 'sch-indofood-kamis',
       date: thursday,
       time: '08:30',
-      companyName: 'PT. Hakiki Donarta',
-      address: 'Jl. Kemirisewu RT. 01 RW. 03, Desa Kemirisewu, Kec. Pandaan, Pasuruan',
+      companyName: 'PT. INDOFOOD',
+      address: '-',
       category: 'PUBT',
-      equipmentName: 'Boiler & Bejana Tekan',
-      inspectionType: 'Riksa Uji Berkala',
-      inspectorId: 'ins-1',
-      inspectorName: 'Ubaid Choiri Ramadhan',
-      companyPicName: 'Yoyok',
-      companyPicPhone: '-',
-      status: 'Terjadwal',
-      notes: 'Riksa uji PUBT.'
-    },
-    {
-      id: 'sch-kamis-2',
-      date: thursday,
-      time: '08:30',
-      companyName: 'PT. Landkrone',
-      address: 'Dusun Wonogriyo, Desa Sumbersuko, Kecamatan Gempol, Pasuruan',
-      category: 'PTP',
-      equipmentName: 'Mesin Produksi & Genset',
+      equipmentName: 'BOILER',
       inspectionType: 'Riksa Uji Berkala',
       inspectorId: 'ins-2',
       inspectorName: 'Daru Catur Wicaksono, A. Md',
-      companyPicName: 'Yoyok',
+      companyPicName: 'PAK RUDY',
       companyPicPhone: '-',
       status: 'Terjadwal',
-      notes: 'Riksa uji PTP.'
-    },
-    {
-      id: 'sch-kamis-3',
-      date: thursday,
-      time: '08:30',
-      companyName: 'PT. Niramas',
-      address: 'Jl. Gunung Gangsir No. 13 (Jl. Randupitu-Gunung Gangsir), Beji, Pasuruan',
-      category: 'PAA',
-      equipmentName: 'Forklift & Overhead Crane',
-      inspectionType: 'Riksa Uji Berkala',
-      inspectorId: 'ins-1',
-      inspectorName: 'Ubaid Choiri Ramadhan',
-      companyPicName: 'Sofyan',
-      companyPicPhone: '-',
-      status: 'Terjadwal',
-      notes: 'Riksa uji PAA.'
+      notes: 'Riksa uji ketel uap boiler.'
     }
   ];
 }
@@ -350,20 +297,36 @@ class RakanaDB {
   static getInspectors() {
     try {
       const data = localStorage.getItem(STORAGE_KEYS.INSPECTORS);
-      const isSyncedV3 = localStorage.getItem('rakana_pjk3_v3_inspectors') === 'true';
-      const hasOldDemoInspectors = data && (data.includes('"pendingReports":2') || data.includes('"pendingReports":6'));
+      const isSyncedV4 = localStorage.getItem('rakana_pjk3_v4_inspectors') === 'true';
 
-      if (!data || !isSyncedV3 || hasOldDemoInspectors) {
+      if (!data || !isSyncedV4) {
         this.saveInspectors(DEFAULT_INSPECTORS);
-        localStorage.setItem('rakana_pjk3_v3_inspectors', 'true');
+        localStorage.setItem('rakana_pjk3_v4_inspectors', 'true');
         return DEFAULT_INSPECTORS;
       }
 
-      const parsed = JSON.parse(data);
+      let parsed = JSON.parse(data);
       if (!Array.isArray(parsed) || parsed.length === 0) {
         this.saveInspectors(DEFAULT_INSPECTORS);
         return DEFAULT_INSPECTORS;
       }
+
+      // Ensure MOH. HUDA is included
+      if (!parsed.some(ins => ins.name && ins.name.toUpperCase().includes('HUDA'))) {
+        parsed.push({
+          id: 'ins-6',
+          name: 'MOH. HUDA',
+          title: 'Ahli K3 Spesialis Instalasi Listrik & Penanggulangan Kebakaran',
+          badgeNo: 'SKP.512/NAKER/2024',
+          phone: '0812-3456-7890',
+          pendingReports: 0,
+          oldestPendingDays: 0,
+          completedThisMonth: 8,
+          avatar: 'MH'
+        });
+        this.saveInspectors(parsed);
+      }
+
       return parsed;
     } catch (e) {
       console.error('Error reading inspectors:', e);
@@ -384,12 +347,12 @@ class RakanaDB {
   static getSchedules() {
     try {
       const data = localStorage.getItem(STORAGE_KEYS.SCHEDULES);
-      const isSyncedV4 = localStorage.getItem('rakana_pjk3_v4_dates_migrated') === 'true';
+      const isSyncedV5 = localStorage.getItem('rakana_pjk3_v5_nov9_synced') === 'true';
 
       if (!data) {
         const defaultSchedules = generateDefaultSchedules();
         this.saveSchedules(defaultSchedules);
-        localStorage.setItem('rakana_pjk3_v4_dates_migrated', 'true');
+        localStorage.setItem('rakana_pjk3_v5_nov9_synced', 'true');
         return defaultSchedules;
       }
 
@@ -397,7 +360,7 @@ class RakanaDB {
       if (!Array.isArray(parsed) || parsed.length === 0) {
         const defaultSchedules = generateDefaultSchedules();
         this.saveSchedules(defaultSchedules);
-        localStorage.setItem('rakana_pjk3_v4_dates_migrated', 'true');
+        localStorage.setItem('rakana_pjk3_v5_nov9_synced', 'true');
         return defaultSchedules;
       }
 
@@ -411,46 +374,43 @@ class RakanaDB {
         }
       });
 
-      // 2. Safe non-destructive date migration for the demo week (2 Nov -> 9 Nov)
-      // PROTECT USER DATA: We NEVER wipe or reset user-entered schedules!
-      if (!isSyncedV4) {
-        const dateShiftMap = {
-          '2026-11-02': '2026-11-09',
-          '2026-11-03': '2026-11-10',
-          '2026-11-04': '2026-11-11',
-          '2026-11-05': '2026-11-12',
-          '2026-11-06': '2026-11-13',
-          '2026-11-07': '2026-11-14',
-          '2026-11-08': '2026-11-15'
-        };
+      // 2. Safe migration to real 9 November schedule (PT. ATI Gempol, CV Basecamp Padel, PT. Niramas, PT. Malidas, PT. Indofood)
+      if (!isSyncedV5) {
+        const defaultSchedules = generateDefaultSchedules();
 
-        parsed = parsed.map(item => {
-          if (item && item.date && dateShiftMap[item.date]) {
-            changed = true;
-            return { ...item, date: dateShiftMap[item.date] };
-          }
-          return item;
-        });
+        // Previous dummy names that are replaced by the new real schedules
+        const oldDemoList = [
+          'pt. sadhana',
+          'pt. delta surya textille',
+          'pt. iseki indonesia',
+          'pt. hakiki donarta',
+          'pt. landkrone',
+          'pt. astra honda',
+          'pt. mayora',
+          'pt. kalbe farma'
+        ];
 
-        // Remove old deprecated dummy names (Indofood, Astra, Mayora, Kalbe) if present
-        const deprecatedDemoNames = ['pt. indofood', 'pt. astra honda', 'pt. mayora', 'pt. kalbe farma'];
-        const filtered = parsed.filter(item => {
+        // Keep any custom user companies that are NOT in the old dummy list
+        const customUserItems = parsed.filter(item => {
           const name = (item.companyName || '').toLowerCase().trim();
-          return !deprecatedDemoNames.some(d => name.includes(d));
+          return !oldDemoList.some(demo => name.includes(demo));
         });
 
-        if (filtered.length !== parsed.length) {
-          parsed = filtered;
-          changed = true;
-        }
+        // Merge defaultSchedules with any custom user items
+        const combined = [...defaultSchedules];
+        customUserItems.forEach(uItem => {
+          const exists = combined.some(c => 
+            c.id === uItem.id || 
+            (c.companyName.toLowerCase() === (uItem.companyName || '').toLowerCase().trim() && c.date === uItem.date)
+          );
+          if (!exists) {
+            combined.push(uItem);
+          }
+        });
 
-        // If after filtering it is empty, seed with default
-        if (parsed.length === 0) {
-          parsed = generateDefaultSchedules();
-          changed = true;
-        }
-
-        localStorage.setItem('rakana_pjk3_v4_dates_migrated', 'true');
+        parsed = combined;
+        changed = true;
+        localStorage.setItem('rakana_pjk3_v5_nov9_synced', 'true');
       }
 
       if (changed) {
@@ -478,8 +438,8 @@ class RakanaDB {
       localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(DEFAULT_SETTINGS));
       localStorage.setItem(STORAGE_KEYS.INSPECTORS, JSON.stringify(DEFAULT_INSPECTORS));
       localStorage.setItem(STORAGE_KEYS.SCHEDULES, JSON.stringify(generateDefaultSchedules()));
-      localStorage.setItem('rakana_pjk3_v4_dates_migrated', 'true');
-      localStorage.setItem('rakana_pjk3_v3_inspectors', 'true');
+      localStorage.setItem('rakana_pjk3_v5_nov9_synced', 'true');
+      localStorage.setItem('rakana_pjk3_v4_inspectors', 'true');
       return true;
     } catch (e) {
       console.error('Error resetting demo data:', e);
