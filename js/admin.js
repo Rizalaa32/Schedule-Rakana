@@ -184,11 +184,10 @@ class AdminManager {
   }
 
   populateInspectorDropdown() {
-    const select = document.getElementById('schedule-inspector-select');
-    if (!select) return;
+    const datalist = document.getElementById('inspector-datalist');
+    if (!datalist) return;
     const inspectors = RakanaDB.getInspectors();
-    select.innerHTML = '<option value="">-- Pilih Ahli K3 Penanggung Jawab --</option>' +
-      inspectors.map(ins => `<option value="${ins.id}">${ins.name} (${ins.title})</option>`).join('');
+    datalist.innerHTML = inspectors.map(ins => `<option value="${ins.name}">${ins.title}</option>`).join('');
   }
 
   renderAllAdminData() {
@@ -301,10 +300,10 @@ class AdminManager {
     const timeVal = document.getElementById('sch-time').value || '08:30';
     const companyVal = document.getElementById('sch-company').value.trim();
     const addressVal = document.getElementById('sch-address').value.trim();
-    const categoryVal = document.getElementById('sch-category').value;
+    const categoryVal = document.getElementById('sch-category').value.trim().toUpperCase() || 'K3';
     const equipmentVal = document.getElementById('sch-equipment').value.trim();
     const inspectionTypeVal = document.getElementById('sch-type').value;
-    const inspectorIdVal = document.getElementById('schedule-inspector-select').value;
+    const inspectorNameVal = document.getElementById('schedule-inspector-select').value.trim() || 'Tim Ahli K3';
     const picNameVal = document.getElementById('sch-pic-name').value.trim();
     const picPhoneVal = document.getElementById('sch-pic-phone').value.trim();
     const statusVal = document.getElementById('sch-status').value;
@@ -315,10 +314,8 @@ class AdminManager {
       return;
     }
 
-    const selectedInspector = inspectors.find(ins => ins.id === inspectorIdVal) || {
-      name: 'Tim Ahli K3 Rakana',
-      id: 'general'
-    };
+    const matchedInspector = inspectors.find(ins => ins.name.toLowerCase() === inspectorNameVal.toLowerCase());
+    const inspectorIdVal = matchedInspector ? matchedInspector.id : ('ins-' + inspectorNameVal.toLowerCase().replace(/[^a-z0-9]/g, '-'));
 
     if (this.currentEditScheduleId) {
       // Update existing
@@ -334,7 +331,7 @@ class AdminManager {
           equipmentName: equipmentVal,
           inspectionType: inspectionTypeVal,
           inspectorId: inspectorIdVal,
-          inspectorName: selectedInspector.name,
+          inspectorName: inspectorNameVal,
           companyPicName: picNameVal,
           companyPicPhone: picPhoneVal,
           status: statusVal,
@@ -356,7 +353,7 @@ class AdminManager {
         equipmentName: equipmentVal,
         inspectionType: inspectionTypeVal,
         inspectorId: inspectorIdVal,
-        inspectorName: selectedInspector.name,
+        inspectorName: inspectorNameVal,
         companyPicName: picNameVal,
         companyPicPhone: picPhoneVal,
         status: statusVal,
@@ -391,10 +388,10 @@ class AdminManager {
     document.getElementById('sch-time').value = sch.time || '08:30';
     document.getElementById('sch-company').value = sch.companyName || '';
     document.getElementById('sch-address').value = sch.address || '';
-    document.getElementById('sch-category').value = sch.category || 'PUBT';
+    document.getElementById('sch-category').value = sch.category || '';
     document.getElementById('sch-equipment').value = sch.equipmentName || '';
     document.getElementById('sch-type').value = sch.inspectionType || 'Riksa Uji Berkala';
-    document.getElementById('schedule-inspector-select').value = sch.inspectorId || '';
+    document.getElementById('schedule-inspector-select').value = sch.inspectorName || '';
     document.getElementById('sch-pic-name').value = sch.companyPicName || '';
     document.getElementById('sch-pic-phone').value = sch.companyPicPhone || '';
     document.getElementById('sch-status').value = sch.status || 'Terjadwal';

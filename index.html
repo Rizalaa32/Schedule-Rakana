@@ -567,17 +567,19 @@
                 </div>
                 <div>
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">Kategori Bidang K3 *</label>
-                  <select id="sch-category"
+                  <input type="text" id="sch-category" list="category-datalist"
+                    placeholder="Ketik manual (cth: LISTRIK, DAMKAR, PAA, PUBT)"
                     class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500"
                     required>
-                    <option value="PUBT">Pesawat Uap & Bejana Tekan (PUBT)</option>
+                  <datalist id="category-datalist">
                     <option value="PAA">Pesawat Angkat & Angkut (PAA)</option>
+                    <option value="PUBT">Pesawat Uap & Bejana Tekan (PUBT)</option>
                     <option value="LISTRIK">Instalasi Listrik & Penyalur Petir</option>
                     <option value="DAMKAR">Instalasi Proteksi Kebakaran</option>
-                    <option value="ELEVATOR">Elevator & Eskalator</option>
                     <option value="PTP">Pesawat Tenaga & Produksi (PTP)</option>
+                    <option value="ELEVATOR">Elevator & Eskalator</option>
                     <option value="LINGKUNGAN">Pengujian Lingkungan Kerja</option>
-                  </select>
+                  </datalist>
                 </div>
 
                 <div class="md:col-span-2">
@@ -613,11 +615,13 @@
 
                 <div>
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">Ahli K3 / Inspektur *</label>
-                  <select id="schedule-inspector-select"
+                  <input type="text" id="schedule-inspector-select" list="inspector-datalist"
+                    placeholder="Ketik manual (cth: MOH. HUDA / Ubaid)"
                     class="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-500"
                     required>
-                    <!-- Populated dynamically -->
-                  </select>
+                  <datalist id="inspector-datalist">
+                    <!-- Populated dynamically from registered inspectors -->
+                  </datalist>
                 </div>
                 <div>
                   <label class="block text-[11px] font-bold text-slate-400 mb-1">Nama PIC Klien</label>
