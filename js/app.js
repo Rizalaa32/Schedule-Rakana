@@ -468,7 +468,7 @@ class RakanaApp {
   renderStats() {
     const schedules = RakanaDB.getSchedules();
     const inspectors = RakanaDB.getInspectors();
-    const weekDates = getThisWeekDates();
+    const weekDates = getActiveWorkWeekDates();
 
     const thisWeekSchedules = schedules.filter(s => weekDates.includes(s.date));
 
@@ -498,7 +498,9 @@ class RakanaApp {
   updateActiveBadge(activeDaysCount = 0) {
     const activeBadge = document.getElementById('active-slide-badge');
     if (activeBadge && this.currentSlide === 1) {
-      activeBadge.innerText = `SLIDE 1/2: JADWAL MINGGU INI (${activeDaysCount} HARI AKTIF)`;
+      const d = new Date();
+      const label = (d.getDay() === 5 || d.getDay() === 6 || d.getDay() === 0) ? 'MINGGU DEPAN (9 - 14 NOV)' : 'MINGGU INI';
+      activeBadge.innerText = `SLIDE 1/2: JADWAL ${label} (${activeDaysCount} HARI AKTIF)`;
     }
   }
 
@@ -603,7 +605,7 @@ class RakanaApp {
 
     const schedules = RakanaDB.getSchedules();
     const today = getRelativeDate(0);
-    const weekDates = getThisWeekDates(); // [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+    const weekDates = getActiveWorkWeekDates(); // [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
 
     // Days name mapping
     const dayNameMap = ['SENIN', 'SELASA', 'RABU', 'KAMIS', 'JUMAT', 'SABTU', 'MINGGU'];
@@ -996,7 +998,11 @@ class RakanaApp {
 
     let text = '';
     if (formatType === 'weekly') {
-      text = WhatsAppExporter.generateWeeklySchedule();
+      text = WhatsAppExporter.generateWeeklySchedule('active');
+    } else if (formatType === 'next_week') {
+      text = WhatsAppExporter.generateWeeklySchedule('next_week');
+    } else if (formatType === 'this_week') {
+      text = WhatsAppExporter.generateWeeklySchedule('this_week');
     } else if (formatType === 'daily') {
       text = WhatsAppExporter.generateDailySchedule();
     } else if (formatType === 'tomorrow') {

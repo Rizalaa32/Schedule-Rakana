@@ -38,9 +38,10 @@ function getRelativeDate(dayOffset = 0) {
   return `${year}-${month}-${day}`;
 }
 
-// Helper to get all dates for the current calendar week (Senin s/d Minggu)
-function getThisWeekDates() {
+// Helper to get all dates for a calendar week (weekOffset: 0 = this week, 1 = next week, -1 = last week)
+function getWeekDates(weekOffset = 0) {
   const d = new Date();
+  d.setDate(d.getDate() + (weekOffset * 7));
   const day = d.getDay(); // 0 is Sunday, 1 is Monday...
   const diffToMonday = (day === 0 ? -6 : 1) - day;
   const monday = new Date(d);
@@ -58,8 +59,27 @@ function getThisWeekDates() {
   return weekDates;
 }
 
+function getThisWeekDates() {
+  return getWeekDates(0);
+}
+
+function getNextWeekDates() {
+  return getWeekDates(1);
+}
+
+// Determines the active work week:
+// On Friday (5), Saturday (6), or Sunday (0), default to the upcoming week (e.g. 9 November)
+function getActiveWorkWeekDates() {
+  const d = new Date();
+  const day = d.getDay();
+  if (day === 5 || day === 6 || day === 0) {
+    return getNextWeekDates();
+  }
+  return getThisWeekDates();
+}
+
 function isDateInThisWeek(dateString) {
-  const weekDates = getThisWeekDates();
+  const weekDates = getActiveWorkWeekDates();
   return weekDates.includes(dateString);
 }
 
@@ -73,7 +93,7 @@ const DEFAULT_SETTINGS = {
   soundEnabled: true,
   theme: 'dark',
   runningText: '⛑️ UTAMAKAN KESELAMATAN & KESEHATAN KERJA • ZERO ACCIDENT IS OUR PRIORITY • PASTIKAN SELURUH OBJEK RIKSA MEMILIKI SUKET/SLO RESMI • LAPORAN TEPAT WAKTU, AUDIT KLIEN AMAN!',
-  version: 3
+  version: 4
 };
 
 const DEFAULT_INSPECTORS = [
@@ -135,7 +155,7 @@ const DEFAULT_INSPECTORS = [
 ];
 
 function generateDefaultSchedules() {
-  const week = getThisWeekDates();
+  const week = getActiveWorkWeekDates();
   const monday = week[0];
   const tuesday = week[1];
   const wednesday = week[2];
@@ -364,24 +384,75 @@ class RakanaDB {
   static getSchedules() {
     try {
       const data = localStorage.getItem(STORAGE_KEYS.SCHEDULES);
-      const isSyncedV3 = localStorage.getItem('rakana_pjk3_v3_schedules') === 'true';
-      const hasOldDemoSchedules = data && (data.includes('Indofood') || data.includes('Astra Honda') || data.includes('Mayora') || data.includes('Kalbe Farma'));
+      const isSyncedV4 = localStorage.getItem('rakana_pjk3_v4_dates_migrated') === 'true';
 
-      if (!data || !isSyncedV3 || hasOldDemoSchedules) {
+      if (!data) {
         const defaultSchedules = generateDefaultSchedules();
         this.saveSchedules(defaultSchedules);
-        localStorage.setItem('rakana_pjk3_v3_schedules', 'true');
+        localStorage.setItem('rakana_pjk3_v4_dates_migrated', 'true');
         return defaultSchedules;
       }
 
-      const parsed = JSON.parse(data);
+      let parsed = JSON.parse(data);
+      if (!Array.isArray(parsed) || parsed.length === 0) {
+        const defaultSchedules = generateDefaultSchedules();
+        this.saveSchedules(defaultSchedules);
+        localStorage.setItem('rakana_pjk3_v4_dates_migrated', 'true');
+        return defaultSchedules;
+      }
+
       let changed = false;
+
+      // 1. Clean up copy tags
       parsed.forEach(s => {
         if (s.companyName && s.companyName.includes('(Copy)')) {
           s.companyName = s.companyName.replace(/(\s*\(Copy\))+/gi, '').trim();
           changed = true;
         }
       });
+
+      // 2. Safe non-destructive date migration for the demo week (2 Nov -> 9 Nov)
+      // PROTECT USER DATA: We NEVER wipe or reset user-entered schedules!
+      if (!isSyncedV4) {
+        const dateShiftMap = {
+          '2026-11-02': '2026-11-09',
+          '2026-11-03': '2026-11-10',
+          '2026-11-04': '2026-11-11',
+          '2026-11-05': '2026-11-12',
+          '2026-11-06': '2026-11-13',
+          '2026-11-07': '2026-11-14',
+          '2026-11-08': '2026-11-15'
+        };
+
+        parsed = parsed.map(item => {
+          if (item && item.date && dateShiftMap[item.date]) {
+            changed = true;
+            return { ...item, date: dateShiftMap[item.date] };
+          }
+          return item;
+        });
+
+        // Remove old deprecated dummy names (Indofood, Astra, Mayora, Kalbe) if present
+        const deprecatedDemoNames = ['pt. indofood', 'pt. astra honda', 'pt. mayora', 'pt. kalbe farma'];
+        const filtered = parsed.filter(item => {
+          const name = (item.companyName || '').toLowerCase().trim();
+          return !deprecatedDemoNames.some(d => name.includes(d));
+        });
+
+        if (filtered.length !== parsed.length) {
+          parsed = filtered;
+          changed = true;
+        }
+
+        // If after filtering it is empty, seed with default
+        if (parsed.length === 0) {
+          parsed = generateDefaultSchedules();
+          changed = true;
+        }
+
+        localStorage.setItem('rakana_pjk3_v4_dates_migrated', 'true');
+      }
+
       if (changed) {
         this.saveSchedules(parsed);
       }
@@ -407,7 +478,7 @@ class RakanaDB {
       localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(DEFAULT_SETTINGS));
       localStorage.setItem(STORAGE_KEYS.INSPECTORS, JSON.stringify(DEFAULT_INSPECTORS));
       localStorage.setItem(STORAGE_KEYS.SCHEDULES, JSON.stringify(generateDefaultSchedules()));
-      localStorage.setItem('rakana_pjk3_v3_schedules', 'true');
+      localStorage.setItem('rakana_pjk3_v4_dates_migrated', 'true');
       localStorage.setItem('rakana_pjk3_v3_inspectors', 'true');
       return true;
     } catch (e) {
@@ -448,5 +519,8 @@ window.K3_CATEGORIES = K3_CATEGORIES;
 window.INSPECTION_STATUSES = INSPECTION_STATUSES;
 window.RakanaDB = RakanaDB;
 window.getRelativeDate = getRelativeDate;
+window.getWeekDates = getWeekDates;
 window.getThisWeekDates = getThisWeekDates;
+window.getNextWeekDates = getNextWeekDates;
+window.getActiveWorkWeekDates = getActiveWorkWeekDates;
 window.isDateInThisWeek = isDateInThisWeek;

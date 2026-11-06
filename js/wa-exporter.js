@@ -91,15 +91,28 @@ class WhatsAppExporter {
   /**
    * Generates Full Weekly Schedule broadcast text for WhatsApp (Senin - Sabtu)
    */
-  static generateWeeklySchedule() {
+  static generateWeeklySchedule(weekType = 'active') {
     const settings = RakanaDB.getSettings();
     const schedules = RakanaDB.getSchedules();
-    const weekDates = getThisWeekDates();
+
+    let weekDates;
+    let titleWeek;
+    if (weekType === 'next_week') {
+      weekDates = getNextWeekDates();
+      titleWeek = 'MINGGU DEPAN';
+    } else if (weekType === 'this_week') {
+      weekDates = getThisWeekDates();
+      titleWeek = 'MINGGU INI';
+    } else {
+      weekDates = getActiveWorkWeekDates();
+      const d = new Date();
+      titleWeek = (d.getDay() === 5 || d.getDay() === 6 || d.getDay() === 0) ? 'MINGGU DEPAN' : 'MINGGU INI';
+    }
 
     const startFormatted = this.formatDateIndonesian(weekDates[0]);
     const endFormatted = this.formatDateIndonesian(weekDates[5]);
 
-    let text = `📅 *AGENDA RIKSA UJI K3 MINGGU INI*\n`;
+    let text = `📅 *AGENDA RIKSA UJI K3 ${titleWeek}*\n`;
     text += `🏢 *${settings.pjk3Name.toUpperCase()}*\n`;
     text += `🗓️ _Periode: ${startFormatted} s/d ${endFormatted}_\n`;
     text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
@@ -130,7 +143,7 @@ class WhatsAppExporter {
     });
 
     text += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-    text += `📊 *Total Kunjungan Riksa Uji Minggu Ini:* ${totalThisWeek} Perusahaan\n\n`;
+    text += `📊 *Total Kunjungan Riksa Uji ${titleWeek.toLowerCase()}:* ${totalThisWeek} Perusahaan\n\n`;
     text += `⛑️ *Zero Accident is Our Priority!*\n`;
     text += `_Pastikan APD lengkap, formulir checklist terisi, & koordinasi dengan PIC sebelum berangkat._ ✨`;
 
