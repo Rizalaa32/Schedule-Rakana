@@ -496,7 +496,7 @@ class RakanaApp {
     inspectors.forEach(ins => {
       const b = parseInt(ins.pendingReports || 0);
       totalBacklog += b;
-      if (b > 5) criticalBacklogCount++;
+      if (b > 20) criticalBacklogCount++;
       if (b === 0) zeroBacklogCount++;
     });
 
@@ -904,21 +904,16 @@ class RakanaApp {
           let alertTitle = '';
           let dotColor = '';
 
-          if (pending > 5) {
+          if (pending > 20) {
             alertCardStyle = 'border-rose-500/70 bg-rose-950/25 glow-rose';
             badgeStyle = 'bg-rose-500/30 text-rose-200 border-rose-500 font-black animate-pulse';
-            alertTitle = '🚨 KRITIS (>5)';
+            alertTitle = '🚨 LIBUR RIKSA (>20)';
             dotColor = 'bg-rose-500 beacon-dot';
-          } else if (pending >= 3) {
-            alertCardStyle = 'border-amber-500/60 bg-amber-950/20 glow-amber';
-            badgeStyle = 'bg-amber-500/30 text-amber-200 border-amber-500/60 font-bold';
-            alertTitle = '⚠️ PERHATIAN (3-5)';
-            dotColor = 'bg-amber-400';
           } else {
-            alertCardStyle = 'border-blue-500/40 bg-blue-950/20';
-            badgeStyle = 'bg-blue-500/30 text-blue-200 border-blue-500/50 font-bold';
-            alertTitle = '⏳ DALAM PROSES (1-2)';
-            dotColor = 'bg-blue-400';
+            alertCardStyle = 'border-emerald-500/40 bg-emerald-950/20';
+            badgeStyle = 'bg-emerald-500/30 text-emerald-200 border-emerald-500/50 font-bold';
+            alertTitle = '🟢 AKTIF RIKSA';
+            dotColor = 'bg-emerald-400';
           }
 
           return `

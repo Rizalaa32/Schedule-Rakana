@@ -575,13 +575,10 @@ class AdminManager {
 
     tbody.innerHTML = inspectors.map(ins => {
       let badgeColor = 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
-      let tagLabel = 'Aman';
-      if (ins.pendingReports > 5) {
+      let tagLabel = 'Aktif Riksa';
+      if (ins.pendingReports > 20) {
         badgeColor = 'bg-rose-500/20 text-rose-400 border-rose-500/30 font-bold';
-        tagLabel = 'Kritis';
-      } else if (ins.pendingReports >= 3) {
-        badgeColor = 'bg-amber-500/20 text-amber-400 border-amber-500/30 font-semibold';
-        tagLabel = 'Perhatian';
+        tagLabel = 'Libur Riksa (>20)';
       }
 
       return `

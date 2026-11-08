@@ -293,3 +293,4 @@ class RakanaSupabaseSync {
 }
 
 window.RakanaSupabaseSync = RakanaSupabaseSync;
+

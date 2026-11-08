@@ -199,16 +199,10 @@ class WhatsAppExporter {
     
     sortedInspectors.forEach(ins => {
       let icon = '🟢';
-      let tag = 'Aman / Nihil';
-      if (ins.pendingReports > 5) {
+      let tag = 'Aktif Riksa';
+      if (ins.pendingReports > 20) {
         icon = '🔴';
-        tag = 'KRITIS/URGENT';
-      } else if (ins.pendingReports >= 3) {
-        icon = '🟡';
-        tag = 'Perhatian';
-      } else if (ins.pendingReports > 0) {
-        icon = '🔵';
-        tag = 'On Track';
+        tag = 'LIBUR RIKSA (>20 Laporan)';
       }
       text += `${icon} *${ins.name}*: ${ins.pendingReports} Laporan (${tag})\n`;
     });
@@ -260,16 +254,10 @@ class WhatsAppExporter {
 
     sorted.forEach((ins, idx) => {
       let statusIcon = '🟢';
-      let statusText = 'Nihil Tanggungan (Bebas Backlog)';
-      if (ins.pendingReports > 5) {
+      let statusText = 'Aktif Riksa (Aman)';
+      if (ins.pendingReports > 20) {
         statusIcon = '🔴';
-        statusText = 'KRITIS - Melebihi Batas H+7';
-      } else if (ins.pendingReports >= 3) {
-        statusIcon = '🟡';
-        statusText = 'PERINGATAN - Perlu Segera Difinalisasi';
-      } else if (ins.pendingReports > 0) {
-        statusIcon = '🔵';
-        statusText = 'Dalam Pengerjaan (Aman)';
+        statusText = 'LIBUR RIKSA (>20 Laporan) - Wajib Tuntaskan Draft LHPP';
       }
 
       text += `${idx + 1}. *${ins.name}*\n`;
