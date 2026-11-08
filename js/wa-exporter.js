@@ -105,8 +105,8 @@ class WhatsAppExporter {
       titleWeek = 'MINGGU INI';
     } else {
       weekDates = getActiveWorkWeekDates();
-      const d = new Date();
-      titleWeek = (d.getDay() === 5 || d.getDay() === 6 || d.getDay() === 0) ? 'MINGGU DEPAN' : 'MINGGU INI';
+      const thisWeek = getThisWeekDates();
+      titleWeek = (weekDates[0] === thisWeek[0]) ? 'MINGGU INI' : 'MINGGU DEPAN';
     }
 
     const startFormatted = this.formatDateIndonesian(weekDates[0]);

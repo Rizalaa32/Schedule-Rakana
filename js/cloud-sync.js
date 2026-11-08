@@ -211,3 +211,4 @@ class RakanaCloudSync {
 }
 
 window.RakanaCloudSync = RakanaCloudSync;
+

@@ -68,14 +68,46 @@ function getNextWeekDates() {
 }
 
 // Determines the active work week:
-// On Friday (5), Saturday (6), or Sunday (0), default to the upcoming week (e.g. 9 November)
+// Intelligently detects whether this week (getThisWeekDates) or next week (getNextWeekDates) has active schedules,
+// and defaults to the upcoming week on weekends (Fri/Sat/Sun).
 function getActiveWorkWeekDates() {
+  const thisWeek = getThisWeekDates();
+  const nextWeek = getNextWeekDates();
+
+  let schedules = [];
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const raw = localStorage.getItem('rakana_pjk3_schedules');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) schedules = parsed;
+      }
+    }
+  } catch (e) {
+    schedules = [];
+  }
+
+  const countThisWeek = schedules.filter(s => thisWeek.includes(s.date)).length;
+  const countNextWeek = schedules.filter(s => nextWeek.includes(s.date)).length;
+
   const d = new Date();
   const day = d.getDay();
-  if (day === 5 || day === 6 || day === 0) {
-    return getNextWeekDates();
+
+  // If next week has schedules and this week has none, prioritize next week
+  if (countNextWeek > 0 && countThisWeek === 0) {
+    return nextWeek;
   }
-  return getThisWeekDates();
+
+  // On Friday (5), Saturday (6), or Sunday (0), prioritize upcoming work week
+  if (day === 5 || day === 6 || day === 0) {
+    return (countNextWeek > 0 || countThisWeek === 0) ? nextWeek : thisWeek;
+  }
+
+  // Monday through Thursday
+  if (countThisWeek > 0) return thisWeek;
+  if (countNextWeek > 0) return nextWeek;
+
+  return thisWeek;
 }
 
 function isDateInThisWeek(dateString) {
@@ -175,7 +207,87 @@ function generateDefaultSchedules() {
   const saturday = week[5]; // 2026-11-14
 
   return [
-    // SENIN 09 Nov (3 PT)
+    // SENIN 09 Nov
+    {
+      id: 'sch-senin-1',
+      date: monday,
+      time: '08:30',
+      companyName: 'PT. Sadhana',
+      address: 'Jl. Raya Surabaya-Malang, Km 59 (Raya Purwosari), Kabupaten Pasuruan',
+      category: 'PAA',
+      equipmentName: 'Forklift (? Unit)',
+      inspectionType: 'Riksa Uji Berkala',
+      inspectorId: 'ins-1',
+      inspectorName: 'Ubaid Choiri Ramadhan',
+      companyPicName: 'Made',
+      companyPicPhone: '085877663421',
+      status: 'Sedang Riksa Uji',
+      notes: 'Riksa uji unit forklift di pabrik Purwosari.'
+    },
+    {
+      id: 'sch-senin-2',
+      date: monday,
+      time: '13:00',
+      companyName: 'PT. Delta Surya Textille',
+      address: 'Jl. Lingkar AMD Ds Purwodadi, PO Box 7, Purwodadi, Kab. Pasuruan',
+      category: 'PTP',
+      equipmentName: 'Screw Compressor',
+      inspectionType: 'Riksa Uji Berkala',
+      inspectorId: 'ins-2',
+      inspectorName: 'Daru Catur Wicaksono, A. Md',
+      companyPicName: 'Sri',
+      companyPicPhone: '-',
+      status: 'Terjadwal',
+      notes: 'Riksa uji kompresor screw.'
+    },
+    {
+      id: 'sch-senin-3',
+      date: monday,
+      time: '13:00',
+      companyName: 'PT. Delta Surya Textille',
+      address: 'Jl. Lingkar AMD Ds Purwodadi, PO Box 7, Purwodadi, Kab. Pasuruan',
+      category: 'PUBT',
+      equipmentName: 'Air Receiver Tank',
+      inspectionType: 'Riksa Uji Berkala',
+      inspectorId: 'ins-1',
+      inspectorName: 'Ubaid Choiri Ramadhan',
+      companyPicName: 'Sri',
+      companyPicPhone: '-',
+      status: 'Terjadwal',
+      notes: 'Riksa uji bejana tekan tangki udara.'
+    },
+    {
+      id: 'sch-senin-4',
+      date: monday,
+      time: '13:00',
+      companyName: 'PT. Delta Surya Textille',
+      address: 'Jl. Lingkar AMD Ds Purwodadi, PO Box 7, Purwodadi, Kab. Pasuruan',
+      category: 'PAA',
+      equipmentName: 'Forklift (2)',
+      inspectionType: 'Riksa Uji Berkala',
+      inspectorId: 'ins-1',
+      inspectorName: 'Ubaid Choiri Ramadhan',
+      companyPicName: 'Sri',
+      companyPicPhone: '-',
+      status: 'Terjadwal',
+      notes: 'Riksa uji 2 unit forklift.'
+    },
+    {
+      id: 'sch-senin-5',
+      date: monday,
+      time: '13:00',
+      companyName: 'PT. Delta Surya Textille',
+      address: 'Jl. Lingkar AMD Ds Purwodadi, PO Box 7, Purwodadi, Kab. Pasuruan',
+      category: 'LISTRIK',
+      equipmentName: 'Pemanfaatan Listrik',
+      inspectionType: 'Riksa Uji Berkala',
+      inspectorId: 'ins-2',
+      inspectorName: 'Daru Catur Wicaksono, A. Md',
+      companyPicName: 'Sri',
+      companyPicPhone: '-',
+      status: 'Terjadwal',
+      notes: 'Riksa instalasi pemanfaatan tenaga listrik.'
+    },
     {
       id: 'sch-ati-gempol',
       date: monday,
@@ -225,7 +337,7 @@ function generateDefaultSchedules() {
       notes: 'Riksa uji instalasi hydrant pabrik.'
     },
 
-    // SELASA 10 Nov (1 PT)
+    // SELASA 10 Nov
     {
       id: 'sch-malidas-sterilindo',
       date: tuesday,
@@ -243,7 +355,73 @@ function generateDefaultSchedules() {
       notes: 'Jadwal belum fiks - konfirmasi ulang dengan Ibu Nadia.'
     },
 
-    // KAMIS 12 Nov (1 PT)
+    // RABU 11 Nov
+    {
+      id: 'sch-rabu-1',
+      date: wednesday,
+      time: '08:30',
+      companyName: 'PT. Iseki Indonesia',
+      address: 'Jalan Kraton Industri Raya No. 11 - 11A, Kawasan Industri PIER, Pasuruan',
+      category: 'PAA',
+      equipmentName: 'OHTC (6), E. Towing, Reach Stacker (2), Hand Pallet (2), Chain Hoist',
+      inspectionType: 'Riksa Uji Berkala',
+      inspectorId: 'ins-1',
+      inspectorName: 'Ubaid Choiri Ramadhan',
+      companyPicName: 'Yuli',
+      companyPicPhone: '-',
+      status: 'Terjadwal',
+      notes: 'Riksa uji rangkaian pesawat angkat dan angkut.'
+    },
+
+    // KAMIS 12 Nov
+    {
+      id: 'sch-kamis-1',
+      date: thursday,
+      time: '08:30',
+      companyName: 'PT. Hakiki Donarta',
+      address: 'Jl. Kemirisewu RT. 01 RW. 03, Desa Kemirisewu, Kec. Pandaan, Pasuruan',
+      category: 'PUBT',
+      equipmentName: 'Boiler & Bejana Tekan',
+      inspectionType: 'Riksa Uji Berkala',
+      inspectorId: 'ins-1',
+      inspectorName: 'Ubaid Choiri Ramadhan',
+      companyPicName: 'Yoyok',
+      companyPicPhone: '-',
+      status: 'Terjadwal',
+      notes: 'Riksa uji PUBT.'
+    },
+    {
+      id: 'sch-kamis-2',
+      date: thursday,
+      time: '08:30',
+      companyName: 'PT. Landkrone',
+      address: 'Dusun Wonogriyo, Desa Sumbersuko, Kecamatan Gempol, Pasuruan',
+      category: 'PTP',
+      equipmentName: 'Mesin Produksi & Genset',
+      inspectionType: 'Riksa Uji Berkala',
+      inspectorId: 'ins-2',
+      inspectorName: 'Daru Catur Wicaksono, A. Md',
+      companyPicName: 'Yoyok',
+      companyPicPhone: '-',
+      status: 'Terjadwal',
+      notes: 'Riksa uji PTP.'
+    },
+    {
+      id: 'sch-kamis-3',
+      date: thursday,
+      time: '08:30',
+      companyName: 'PT. Niramas',
+      address: 'Jl. Gunung Gangsir No. 13 (Jl. Randupitu-Gunung Gangsir), Beji, Pasuruan',
+      category: 'PAA',
+      equipmentName: 'Forklift & Overhead Crane',
+      inspectionType: 'Riksa Uji Berkala',
+      inspectorId: 'ins-1',
+      inspectorName: 'Ubaid Choiri Ramadhan',
+      companyPicName: 'Sofyan',
+      companyPicPhone: '-',
+      status: 'Terjadwal',
+      notes: 'Riksa uji PAA.'
+    },
     {
       id: 'sch-indofood-kamis',
       date: thursday,
@@ -347,12 +525,10 @@ class RakanaDB {
   static getSchedules() {
     try {
       const data = localStorage.getItem(STORAGE_KEYS.SCHEDULES);
-      const isSyncedV5 = localStorage.getItem('rakana_pjk3_v5_nov9_synced') === 'true';
 
       if (!data) {
         const defaultSchedules = generateDefaultSchedules();
         this.saveSchedules(defaultSchedules);
-        localStorage.setItem('rakana_pjk3_v5_nov9_synced', 'true');
         return defaultSchedules;
       }
 
@@ -360,13 +536,12 @@ class RakanaDB {
       if (!Array.isArray(parsed) || parsed.length === 0) {
         const defaultSchedules = generateDefaultSchedules();
         this.saveSchedules(defaultSchedules);
-        localStorage.setItem('rakana_pjk3_v5_nov9_synced', 'true');
         return defaultSchedules;
       }
 
       let changed = false;
 
-      // 1. Clean up copy tags
+      // Clean up copy tags
       parsed.forEach(s => {
         if (s.companyName && s.companyName.includes('(Copy)')) {
           s.companyName = s.companyName.replace(/(\s*\(Copy\))+/gi, '').trim();
@@ -374,44 +549,21 @@ class RakanaDB {
         }
       });
 
-      // 2. Safe migration to real 9 November schedule (PT. ATI Gempol, CV Basecamp Padel, PT. Niramas, PT. Malidas, PT. Indofood)
-      if (!isSyncedV5) {
-        const defaultSchedules = generateDefaultSchedules();
-
-        // Previous dummy names that are replaced by the new real schedules
-        const oldDemoList = [
-          'pt. sadhana',
-          'pt. delta surya textille',
-          'pt. iseki indonesia',
-          'pt. hakiki donarta',
-          'pt. landkrone',
-          'pt. astra honda',
-          'pt. mayora',
-          'pt. kalbe farma'
-        ];
-
-        // Keep any custom user companies that are NOT in the old dummy list
-        const customUserItems = parsed.filter(item => {
-          const name = (item.companyName || '').toLowerCase().trim();
-          return !oldDemoList.some(demo => name.includes(demo));
-        });
-
-        // Merge defaultSchedules with any custom user items
-        const combined = [...defaultSchedules];
-        customUserItems.forEach(uItem => {
-          const exists = combined.some(c => 
-            c.id === uItem.id || 
-            (c.companyName.toLowerCase() === (uItem.companyName || '').toLowerCase().trim() && c.date === uItem.date)
-          );
-          if (!exists) {
-            combined.push(uItem);
-          }
-        });
-
-        parsed = combined;
-        changed = true;
-        localStorage.setItem('rakana_pjk3_v5_nov9_synced', 'true');
-      }
+      // ABSOLUTE PROTECTION - JANGAN PERNAH ADA YANG DI-CLEAR:
+      // Pastikan seluruh jadwal (Sadhana, Delta Surya, Iseki, Hakiki, Landkrone, Niramas,
+      // Ati Gempol, Basecamp Padel, Malidas, Indofood) tetap ada dan utuh.
+      // Jika ada yang belum masuk di browser ini, masukkan tanpa menghapus data yang ada.
+      const defaults = generateDefaultSchedules();
+      defaults.forEach(def => {
+        const exists = parsed.some(p => 
+          p.id === def.id || 
+          (p.companyName && p.companyName.toLowerCase().trim() === def.companyName.toLowerCase().trim() && p.date === def.date && p.category === def.category)
+        );
+        if (!exists) {
+          parsed.push(def);
+          changed = true;
+        }
+      });
 
       if (changed) {
         this.saveSchedules(parsed);

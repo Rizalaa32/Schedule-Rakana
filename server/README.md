@@ -45,3 +45,4 @@ Buka **Panel Tencent Cloud** -> **Lighthouse** -> **Firewall**:
 
 Selesai! Alamat API server Anda siap digunakan:
 `http://IP-SERVER-ANDA:3001`
+

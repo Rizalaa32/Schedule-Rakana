@@ -46,10 +46,19 @@ function getInitialSeed() {
       { id: 'ins-6', name: 'MOH. HUDA', title: 'Ahli K3 Spesialis Instalasi Listrik & Penanggulangan Kebakaran', badgeNo: 'SKP.512/NAKER/2024', phone: '0812-3456-7890', pendingReports: 0, oldestPendingDays: 0, completedThisMonth: 8, avatar: 'MH' }
     ],
     schedules: [
+      { id: 'sch-senin-1', date: '2026-11-09', time: '08:30', companyName: 'PT. Sadhana', address: 'Jl. Raya Surabaya-Malang, Km 59 (Raya Purwosari), Kabupaten Pasuruan', category: 'PAA', equipmentName: 'Forklift (? Unit)', inspectionType: 'Riksa Uji Berkala', inspectorId: 'ins-1', inspectorName: 'Ubaid Choiri Ramadhan', companyPicName: 'Made', companyPicPhone: '085877663421', status: 'Sedang Riksa Uji', notes: 'Riksa uji unit forklift di pabrik Purwosari.' },
+      { id: 'sch-senin-2', date: '2026-11-09', time: '13:00', companyName: 'PT. Delta Surya Textille', address: 'Jl. Lingkar AMD Ds Purwodadi, PO Box 7, Purwodadi, Kab. Pasuruan', category: 'PTP', equipmentName: 'Screw Compressor', inspectionType: 'Riksa Uji Berkala', inspectorId: 'ins-2', inspectorName: 'Daru Catur Wicaksono, A. Md', companyPicName: 'Sri', companyPicPhone: '-', status: 'Terjadwal', notes: 'Riksa uji kompresor screw.' },
+      { id: 'sch-senin-3', date: '2026-11-09', time: '13:00', companyName: 'PT. Delta Surya Textille', address: 'Jl. Lingkar AMD Ds Purwodadi, PO Box 7, Purwodadi, Kab. Pasuruan', category: 'PUBT', equipmentName: 'Air Receiver Tank', inspectionType: 'Riksa Uji Berkala', inspectorId: 'ins-1', inspectorName: 'Ubaid Choiri Ramadhan', companyPicName: 'Sri', companyPicPhone: '-', status: 'Terjadwal', notes: 'Riksa uji bejana tekan tangki udara.' },
+      { id: 'sch-senin-4', date: '2026-11-09', time: '13:00', companyName: 'PT. Delta Surya Textille', address: 'Jl. Lingkar AMD Ds Purwodadi, PO Box 7, Purwodadi, Kab. Pasuruan', category: 'PAA', equipmentName: 'Forklift (2)', inspectionType: 'Riksa Uji Berkala', inspectorId: 'ins-1', inspectorName: 'Ubaid Choiri Ramadhan', companyPicName: 'Sri', companyPicPhone: '-', status: 'Terjadwal', notes: 'Riksa uji 2 unit forklift.' },
+      { id: 'sch-senin-5', date: '2026-11-09', time: '13:00', companyName: 'PT. Delta Surya Textille', address: 'Jl. Lingkar AMD Ds Purwodadi, PO Box 7, Purwodadi, Kab. Pasuruan', category: 'LISTRIK', equipmentName: 'Pemanfaatan Listrik', inspectionType: 'Riksa Uji Berkala', inspectorId: 'ins-2', inspectorName: 'Daru Catur Wicaksono, A. Md', companyPicName: 'Sri', companyPicPhone: '-', status: 'Terjadwal', notes: 'Riksa instalasi pemanfaatan tenaga listrik.' },
       { id: 'sch-ati-gempol', date: '2026-11-09', time: '08:30', companyName: 'PT. ATI GEMPOL', address: '-', category: 'LISTRIK', equipmentName: 'LISTRIK , PETIR, KOMPRESSOR', inspectionType: 'Riksa Uji Berkala', inspectorId: 'ins-6', inspectorName: 'MOH. HUDA', companyPicName: 'BU TITIN', companyPicPhone: '-', status: 'Terjadwal', notes: 'Riksa uji instalasi listrik, petir, dan kompressor.' },
       { id: 'sch-basecamp-padel', date: '2026-11-09', time: '13:30', companyName: 'CV BASECAMP PADEL', address: '9MQP+JGH, Damean, Kepulungan, Kec. Gempol, Pasuruan, Jawa Timur', category: 'DAMKAR', equipmentName: 'APAR', inspectionType: 'Riksa Uji Berkala', inspectorId: 'ins-6', inspectorName: 'MOH. HUDA', companyPicName: 'BU RISMA', companyPicPhone: '+62 878-8545-6085', status: 'Terjadwal', notes: 'Riksa uji proteksi kebakaran APAR.' },
       { id: 'sch-niramas-senin', date: '2026-11-09', time: '14:30', companyName: 'PT. NIRAMAS', address: '-', category: 'DAMKAR', equipmentName: 'HYDRANT', inspectionType: 'Riksa Uji Berkala', inspectorId: 'ins-6', inspectorName: 'MOH. HUDA', companyPicName: 'PAK SOFYAN', companyPicPhone: '-', status: 'Terjadwal', notes: 'Riksa uji instalasi hydrant pabrik.' },
       { id: 'sch-malidas-sterilindo', date: '2026-11-10', time: '09:00', companyName: 'PT. MALIDAS STERILINDO (BELUM FIKS)', address: 'Jl. Kidemang Singomenggolo No. 22, Sidomulyo, Kec. Buduran, Sidoarjo', category: 'PAA', equipmentName: 'PETIR (6), GENSET, LISTRIK, HOIST, LIFT BARANG, FORKLIFT (2), REACH TRUCK', inspectionType: 'Riksa Uji Berkala', inspectorId: 'ins-1', inspectorName: 'Ubaid Choiri Ramadhan', companyPicName: 'IBU NADIA', companyPicPhone: '+62 813-3514-5475', status: 'Terjadwal', notes: 'Jadwal belum fiks - konfirmasi ulang dengan Ibu Nadia.' },
+      { id: 'sch-rabu-1', date: '2026-11-11', time: '08:30', companyName: 'PT. Iseki Indonesia', address: 'Jalan Kraton Industri Raya No. 11 - 11A, Kawasan Industri PIER, Pasuruan', category: 'PAA', equipmentName: 'OHTC (6), E. Towing, Reach Stacker (2), Hand Pallet (2), Chain Hoist', inspectionType: 'Riksa Uji Berkala', inspectorId: 'ins-1', inspectorName: 'Ubaid Choiri Ramadhan', companyPicName: 'Yuli', companyPicPhone: '-', status: 'Terjadwal', notes: 'Riksa uji rangkaian pesawat angkat dan angkut.' },
+      { id: 'sch-kamis-1', date: '2026-11-12', time: '08:30', companyName: 'PT. Hakiki Donarta', address: 'Jl. Kemirisewu RT. 01 RW. 03, Desa Kemirisewu, Kec. Pandaan, Pasuruan', category: 'PUBT', equipmentName: 'Boiler & Bejana Tekan', inspectionType: 'Riksa Uji Berkala', inspectorId: 'ins-1', inspectorName: 'Ubaid Choiri Ramadhan', companyPicName: 'Yoyok', companyPicPhone: '-', status: 'Terjadwal', notes: 'Riksa uji PUBT.' },
+      { id: 'sch-kamis-2', date: '2026-11-12', time: '08:30', companyName: 'PT. Landkrone', address: 'Dusun Wonogriyo, Desa Sumbersuko, Kecamatan Gempol, Pasuruan', category: 'PTP', equipmentName: 'Mesin Produksi & Genset', inspectionType: 'Riksa Uji Berkala', inspectorId: 'ins-2', inspectorName: 'Daru Catur Wicaksono, A. Md', companyPicName: 'Yoyok', companyPicPhone: '-', status: 'Terjadwal', notes: 'Riksa uji PTP.' },
+      { id: 'sch-kamis-3', date: '2026-11-12', time: '08:30', companyName: 'PT. Niramas', address: 'Jl. Gunung Gangsir No. 13 (Jl. Randupitu-Gunung Gangsir), Beji, Pasuruan', category: 'PAA', equipmentName: 'Forklift & Overhead Crane', inspectionType: 'Riksa Uji Berkala', inspectorId: 'ins-1', inspectorName: 'Ubaid Choiri Ramadhan', companyPicName: 'Sofyan', companyPicPhone: '-', status: 'Terjadwal', notes: 'Riksa uji PAA.' },
       { id: 'sch-indofood-kamis', date: '2026-11-12', time: '08:30', companyName: 'PT. INDOFOOD', address: '-', category: 'PUBT', equipmentName: 'BOILER', inspectionType: 'Riksa Uji Berkala', inspectorId: 'ins-2', inspectorName: 'Daru Catur Wicaksono, A. Md', companyPicName: 'PAK RUDY', companyPicPhone: '-', status: 'Terjadwal', notes: 'Riksa uji ketel uap boiler.' }
     ]
   };
@@ -107,8 +116,10 @@ function mergeData(incoming) {
   }
 
   if (Array.isArray(incoming.schedules)) {
-    // If client sent schedules, update current
-    current.schedules = incoming.schedules;
+    // If client sent schedules, protect against accidental empty array wipeout
+    if (incoming.schedules.length > 0) {
+      current.schedules = incoming.schedules;
+    }
   }
 
   saveDatabase(current);
@@ -197,6 +208,9 @@ const server = http.createServer((req, res) => {
   res.end(JSON.stringify({ error: 'Endpoint tidak ditemukan', path: pathname }));
 });
 
+// Initialize DB file on startup
+readDatabase();
+
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`====================================================`);
   console.log(` Schedule-Rakana Standalone Cloud API`);
@@ -205,3 +219,4 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(` Database: ${DB_FILE}`);
   console.log(`====================================================`);
 });
+

@@ -352,6 +352,7 @@ class RakanaApp {
         btn.classList.remove('bg-slate-800', 'text-slate-300');
 
         const formatType = btn.getAttribute('data-format');
+        this.currentWaFormat = formatType;
         this.updateWhatsAppPreview(formatType);
       });
     });
@@ -449,6 +450,12 @@ class RakanaApp {
     this.renderBacklogSlide();
     this.renderRunningTicker();
     this.refreshIcons();
+
+    // Automatically update WhatsApp preview whenever schedules or data are updated
+    const waModal = document.getElementById('wa-modal');
+    if (waModal && !waModal.classList.contains('hidden')) {
+      this.updateWhatsAppPreview(this.currentWaFormat || 'weekly');
+    }
   }
 
   renderHeaderAndBranding() {
@@ -988,7 +995,7 @@ class RakanaApp {
     const modal = document.getElementById('wa-modal');
     if (!modal) return;
     modal.classList.remove('hidden');
-    this.updateWhatsAppPreview('weekly');
+    this.updateWhatsAppPreview(this.currentWaFormat || 'weekly');
     this.refreshIcons();
   }
 
@@ -998,6 +1005,7 @@ class RakanaApp {
   }
 
   updateWhatsAppPreview(formatType) {
+    this.currentWaFormat = formatType || 'weekly';
     const textarea = document.getElementById('wa-preview-textarea');
     if (!textarea) return;
 
