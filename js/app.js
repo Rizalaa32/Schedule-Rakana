@@ -39,6 +39,11 @@ class RakanaApp {
       this.checkDayChange();
     }, 60000);
 
+    // Initialize Supabase Realtime Sync
+    if (window.RakanaSupabaseSync) {
+      RakanaSupabaseSync.init();
+    }
+
     // Initialize Tencent Cloud Sync auto-sync if configured
     if (window.RakanaCloudSync && RakanaCloudSync.isConfigured()) {
       RakanaCloudSync.startAutoSync(15);
