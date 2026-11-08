@@ -38,6 +38,11 @@ class RakanaApp {
     setInterval(() => {
       this.checkDayChange();
     }, 60000);
+
+    // Initialize Tencent Cloud Sync auto-sync if configured
+    if (window.RakanaCloudSync && RakanaCloudSync.isConfigured()) {
+      RakanaCloudSync.startAutoSync(15);
+    }
   }
 
   checkUrlSync() {

@@ -111,6 +111,9 @@ class AdminManager {
       resetBtn.addEventListener('click', () => {
         if (confirm('Yakin ingin mereset seluruh data kembali ke jadwal bawaan PT. Rakana Mitra Riksa?')) {
           RakanaDB.resetToDemoData();
+          if (window.RakanaCloudSync && RakanaCloudSync.isConfigured()) {
+            RakanaCloudSync.pushToCloud();
+          }
           if (window.App) {
             window.App.refreshAll();
             window.App.showToast('Data berhasil direset ke jadwal standar Rakana!', 'success');
@@ -127,6 +130,64 @@ class AdminManager {
     if (historySearch) historySearch.addEventListener('input', () => this.renderHistoryTable());
     if (historyDate) historyDate.addEventListener('change', () => this.renderHistoryTable());
     if (historyCategory) historyCategory.addEventListener('change', () => this.renderHistoryTable());
+
+    // Save / Connect Cloud Sync
+    const btnSaveCloud = document.getElementById('btn-save-cloud-sync');
+    if (btnSaveCloud) {
+      btnSaveCloud.addEventListener('click', async () => {
+        const input = document.getElementById('input-cloud-api-url');
+        const url = (input ? input.value : '').trim();
+        if (!url) {
+          if (confirm('Kosongkan alamat server cloud dan beralih ke Mode Mandiri (Lokal)?')) {
+            RakanaCloudSync.setApiUrl('');
+            RakanaCloudSync.updateStatusBadge('offline');
+            if (window.App) window.App.showToast('Mode mandiri (lokal) aktif', 'info');
+          }
+          return;
+        }
+
+        btnSaveCloud.disabled = true;
+        btnSaveCloud.innerHTML = '<i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i><span>Mengetes...</span>';
+        if (window.lucide) window.lucide.createIcons();
+
+        const testRes = await RakanaCloudSync.testConnection(url);
+        btnSaveCloud.disabled = false;
+        btnSaveCloud.innerHTML = '<i data-lucide="plug" class="w-3.5 h-3.5"></i><span>Tes & Hubungkan Server</span>';
+        if (window.lucide) window.lucide.createIcons();
+
+        if (testRes.ok) {
+          RakanaCloudSync.setApiUrl(url);
+          RakanaCloudSync.updateStatusBadge('online');
+          await RakanaCloudSync.pullFromCloud();
+          RakanaCloudSync.startAutoSync(15);
+          if (window.App) {
+            window.App.showToast('✅ Berhasil terhubung ke server Tencent Cloud! Sinkronisasi aktif.', 'success');
+          }
+        } else {
+          RakanaCloudSync.updateStatusBadge('error');
+          alert('Gagal terhubung ke server cloud:\n' + testRes.message);
+        }
+      });
+    }
+
+    // Pull from cloud manually
+    const btnPullCloud = document.getElementById('btn-pull-cloud-now');
+    if (btnPullCloud) {
+      btnPullCloud.addEventListener('click', async () => {
+        if (!RakanaCloudSync.isConfigured()) {
+          alert('Alamat server Tencent Cloud belum dihubungkan. Masukkan URL server terlebih dahulu.');
+          return;
+        }
+        btnPullCloud.disabled = true;
+        const ok = await RakanaCloudSync.pullFromCloud();
+        btnPullCloud.disabled = false;
+        if (ok) {
+          if (window.App) window.App.showToast('✅ Data jadwal terbaru berhasil ditarik dari server cloud!', 'success');
+        } else {
+          alert('Gagal menarik data dari server cloud. Periksa koneksi internet atau status server.');
+        }
+      });
+    }
   }
 
   openAdminModal() {
@@ -363,6 +424,9 @@ class AdminManager {
     }
 
     RakanaDB.saveSchedules(schedules);
+    if (window.RakanaCloudSync && RakanaCloudSync.isConfigured()) {
+      RakanaCloudSync.pushToCloud();
+    }
     document.getElementById('form-schedule').reset();
     document.getElementById('sch-date').value = getRelativeDate(0);
     this.renderSchedulesTable();
@@ -422,6 +486,9 @@ class AdminManager {
     };
     schedules.unshift(copy);
     RakanaDB.saveSchedules(schedules);
+    if (window.RakanaCloudSync && RakanaCloudSync.isConfigured()) {
+      RakanaCloudSync.pushToCloud();
+    }
     this.renderSchedulesTable();
     if (window.App) {
       window.App.refreshAll();
@@ -434,6 +501,9 @@ class AdminManager {
     let schedules = RakanaDB.getSchedules();
     schedules = schedules.filter(s => s.id !== id);
     RakanaDB.saveSchedules(schedules);
+    if (window.RakanaCloudSync && RakanaCloudSync.isConfigured()) {
+      RakanaCloudSync.pushToCloud();
+    }
     this.renderSchedulesTable();
     this.renderHistoryTable();
     if (window.App) {
@@ -448,6 +518,9 @@ class AdminManager {
     if (sch) {
       sch.status = newStatus;
       RakanaDB.saveSchedules(schedules);
+      if (window.RakanaCloudSync && RakanaCloudSync.isConfigured()) {
+        RakanaCloudSync.pushToCloud();
+      }
       if (window.App) {
         window.App.refreshAll();
         window.App.showToast(`Status diperbarui menjadi: ${newStatus}`, 'success');
@@ -604,6 +677,9 @@ class AdminManager {
     }
 
     RakanaDB.saveInspectors(inspectors);
+    if (window.RakanaCloudSync && RakanaCloudSync.isConfigured()) {
+      RakanaCloudSync.pushToCloud();
+    }
     document.getElementById('form-inspector').reset();
     this.renderInspectorsTable();
     this.populateInspectorDropdown();
@@ -645,6 +721,9 @@ class AdminManager {
     let inspectors = RakanaDB.getInspectors();
     inspectors = inspectors.filter(i => i.id !== id);
     RakanaDB.saveInspectors(inspectors);
+    if (window.RakanaCloudSync && RakanaCloudSync.isConfigured()) {
+      RakanaCloudSync.pushToCloud();
+    }
     this.renderInspectorsTable();
     this.populateInspectorDropdown();
     if (window.App) {
@@ -663,6 +742,9 @@ class AdminManager {
         if (ins.pendingReports === 0) ins.oldestPendingDays = 0;
       }
       RakanaDB.saveInspectors(inspectors);
+      if (window.RakanaCloudSync && RakanaCloudSync.isConfigured()) {
+        RakanaCloudSync.pushToCloud();
+      }
       this.renderInspectorsTable();
       if (window.App) {
         window.App.refreshAll();
@@ -731,6 +813,12 @@ class AdminManager {
     document.getElementById('set-pjk3-reg').value = s.pjk3RegNo || '';
     document.getElementById('set-running-text').value = s.runningText || '';
     document.getElementById('set-admin-pin').value = s.adminPin || '1234';
+
+    const cloudInput = document.getElementById('input-cloud-api-url');
+    if (cloudInput && window.RakanaCloudSync) {
+      cloudInput.value = RakanaCloudSync.getApiUrl() || '';
+      RakanaCloudSync.updateStatusBadge(RakanaCloudSync.isConfigured() ? 'online' : 'offline');
+    }
   }
 
   handleSaveSettings(e) {
@@ -746,6 +834,9 @@ class AdminManager {
     };
 
     RakanaDB.saveSettings(updated);
+    if (window.RakanaCloudSync && RakanaCloudSync.isConfigured()) {
+      RakanaCloudSync.pushToCloud();
+    }
     if (window.App) {
       window.App.refreshAll();
       window.App.showToast('Pengaturan PJK3 berhasil diperbarui!', 'success');
@@ -773,6 +864,9 @@ class AdminManager {
       try {
         const json = JSON.parse(event.target.result);
         RakanaDB.importFullBackup(json);
+        if (window.RakanaCloudSync && RakanaCloudSync.isConfigured()) {
+          RakanaCloudSync.pushToCloud();
+        }
         this.renderAllAdminData();
         if (window.App) {
           window.App.refreshAll();
